@@ -1,0 +1,1016 @@
+# Madi-Alert
+
+## Water Fault Reporting App
+
+### Final Project 1
+
+Madi-Alert is a web-based water fault reporting application designed to help community members report water-related problems quickly and efficiently.
+
+The application provides a central platform where users can report issues such as water leaks, burst pipes, damaged water infrastructure, low water pressure, and other water-related faults.
+
+The purpose of Madi-Alert is to improve communication between community members and the relevant maintenance or municipal teams by providing a structured way to report and track water faults.
+
+---
+
+# 1. Introduction
+
+## 1.1 Project Overview
+
+Water infrastructure problems can have a significant impact on communities.
+
+Examples include:
+
+* Burst water pipes
+* Water leaks
+* Damaged water infrastructure
+* No water supply
+* Low water pressure
+* Water wastage
+* Blocked or damaged water systems
+* Other water-related faults
+
+Madi-Alert provides users with a simple web application for reporting these problems.
+
+A user can submit a fault report containing information such as:
+
+* Fault type
+* Description
+* Location
+* Date and time
+* Contact information
+* Optional supporting information
+
+The submitted report can then be stored in a database and managed by the application.
+
+---
+
+# 2. Project Objectives
+
+The main objectives of Madi-Alert are to:
+
+1. Provide an easy-to-use water fault reporting platform.
+2. Allow users to submit water-related faults.
+3. Capture important information about reported faults.
+4. Store fault reports in a database.
+5. Allow reports to be reviewed and managed.
+6. Improve communication between residents and maintenance teams.
+7. Provide a structured digital alternative to informal fault reporting.
+8. Demonstrate full-stack web application development.
+9. Apply software design and development principles.
+10. Document the system for users and developers.
+
+---
+
+# 3. Problem Statement
+
+Community members may experience difficulty reporting water infrastructure problems through traditional reporting methods.
+
+Reports may be:
+
+* Delayed
+* Difficult to track
+* Missing important information
+* Sent to the wrong department
+* Difficult to manage
+* Difficult to prioritise
+
+Madi-Alert addresses this problem by providing a centralised digital reporting system.
+
+The application allows users to submit structured reports that can be stored, reviewed, and managed.
+
+---
+
+# 4. Use Case
+
+## 4.1 Main Use Case
+
+The main use case for Madi-Alert is:
+
+> A community member identifies a water fault, submits a report through Madi-Alert, and the report is stored so that it can be reviewed and managed.
+
+---
+
+# 5. Actors
+
+The main actors in the system are:
+
+### Resident / User
+
+A user can:
+
+* Access the application
+* Submit a water fault
+* Provide fault details
+* Provide the fault location
+* View submitted reports
+* Track the status of a report
+
+### Administrator / Maintenance User
+
+An administrator or maintenance user can:
+
+* View reported faults
+* Review fault details
+* Update fault status
+* Prioritise faults
+* Manage reports
+
+---
+
+# 6. Use Case Scenarios
+
+## UC-01: Submit Water Fault
+
+**Actor:** Resident/User
+
+**Description:**
+
+A user submits a report about a water-related problem.
+
+### Steps
+
+1. User opens Madi-Alert.
+2. User selects the option to report a fault.
+3. User selects the type of water fault.
+4. User enters a description.
+5. User enters or selects the location.
+6. User provides any required contact information.
+7. User submits the report.
+8. The application validates the information.
+9. The report is stored in the database.
+10. The application confirms that the report was submitted.
+
+### Expected Result
+
+A new water fault report is successfully created.
+
+---
+
+# 7. UC-02: View Fault Report
+
+**Actor:** User
+
+**Description:**
+
+A user views information about a previously submitted fault.
+
+### Steps
+
+1. User opens Madi-Alert.
+2. User accesses their submitted reports.
+3. The application retrieves the reports.
+4. The application displays the report information.
+
+### Expected Result
+
+The user can view their submitted fault reports.
+
+---
+
+# 8. UC-03: Track Fault Status
+
+**Actor:** User
+
+**Description:**
+
+A user checks the progress of a submitted fault.
+
+### Possible Statuses
+
+```text
+Submitted
+    ↓
+Under Review
+    ↓
+Assigned
+    ↓
+In Progress
+    ↓
+Resolved
+```
+
+### Steps
+
+1. User opens their submitted reports.
+2. User selects a report.
+3. The application displays the current status.
+4. User can see whether the fault has been addressed.
+
+### Expected Result
+
+The user can determine the current status of the reported fault.
+
+---
+
+# 9. UC-04: Manage Fault Report
+
+**Actor:** Administrator/Maintenance User
+
+**Description:**
+
+An authorised administrator reviews and manages reported faults.
+
+### Steps
+
+1. Administrator logs into the application.
+2. Administrator opens the fault management area.
+3. The application displays reported faults.
+4. Administrator selects a fault.
+5. Administrator reviews the details.
+6. Administrator updates the status.
+7. The application saves the changes.
+
+### Expected Result
+
+The fault report is updated successfully.
+
+---
+
+# 10. UC-05: Resolve Fault
+
+**Actor:** Administrator/Maintenance User
+
+**Description:**
+
+An administrator marks a fault as resolved after the issue has been addressed.
+
+### Steps
+
+1. Administrator opens the fault report.
+2. Administrator confirms that the issue has been addressed.
+3. Administrator changes the status to `Resolved`.
+4. The application saves the updated status.
+
+### Expected Result
+
+The fault is marked as resolved.
+
+---
+
+# 11. Tech Design
+
+## 11.1 System Architecture
+
+Madi-Alert follows a full-stack web application architecture.
+
+```text
+                    ┌───────────────────┐
+                    │       User        │
+                    └─────────┬─────────┘
+                              │
+                              ▼
+                    ┌───────────────────┐
+                    │   Web Interface   │
+                    │   React / Next.js │
+                    └─────────┬─────────┘
+                              │
+                              ▼
+                    ┌───────────────────┐
+                    │ Application Logic │
+                    │   Server / API    │
+                    └─────────┬─────────┘
+                              │
+                              ▼
+                    ┌───────────────────┐
+                    │      Prisma       │
+                    │        ORM        │
+                    └─────────┬─────────┘
+                              │
+                              ▼
+                    ┌───────────────────┐
+                    │ PostgreSQL / Neon │
+                    │     Database      │
+                    └───────────────────┘
+```
+
+---
+
+# 12. Application Components
+
+Madi-Alert consists of several major components.
+
+## Frontend
+
+Responsible for:
+
+* User interface
+* Forms
+* Navigation
+* Fault reporting
+* Report display
+* Status display
+
+## Backend
+
+Responsible for:
+
+* Application logic
+* Request processing
+* Validation
+* Authentication
+* Database operations
+* Fault management
+
+## Database
+
+Responsible for storing:
+
+* Users
+* Fault reports
+* Fault locations
+* Fault statuses
+* Dates
+* Other relevant information
+
+---
+
+# 13. Database Design
+
+The database is designed around the main entities required by the application.
+
+## 13.1 User
+
+```text
+User
+--------------------
+id
+name
+email
+password
+role
+createdAt
+```
+
+The `role` field can identify different types of users, such as:
+
+```text
+USER
+ADMIN
+```
+
+---
+
+# 14. Fault Report
+
+The Fault Report entity stores information about reported water problems.
+
+```text
+FaultReport
+--------------------
+id
+title
+description
+faultType
+location
+status
+priority
+reportedBy
+createdAt
+updatedAt
+```
+
+---
+
+# 15. Fault Types
+
+Possible fault types include:
+
+```text
+Water Leak
+Burst Pipe
+No Water
+Low Water Pressure
+Damaged Infrastructure
+Water Wastage
+Other
+```
+
+Additional fault types can be added as the project develops.
+
+---
+
+# 16. Fault Status
+
+The application uses statuses to track the progress of a report.
+
+```text
+SUBMITTED
+UNDER_REVIEW
+ASSIGNED
+IN_PROGRESS
+RESOLVED
+```
+
+The status workflow is:
+
+```text
+SUBMITTED
+     │
+     ▼
+UNDER_REVIEW
+     │
+     ▼
+ASSIGNED
+     │
+     ▼
+IN_PROGRESS
+     │
+     ▼
+RESOLVED
+```
+
+---
+
+# 17. Priority
+
+Fault reports can optionally be assigned a priority.
+
+Possible priority levels:
+
+```text
+LOW
+MEDIUM
+HIGH
+CRITICAL
+```
+
+This allows administrators or maintenance teams to identify faults that require urgent attention.
+
+---
+
+# 18. Technology Stack
+
+The project can be implemented using the following technologies.
+
+| Technology   | Purpose                              |
+| ------------ | ------------------------------------ |
+| Next.js      | Full-stack web framework             |
+| React        | User interface                       |
+| TypeScript   | Programming language and type safety |
+| Tailwind CSS | UI styling                           |
+| Prisma       | Database ORM                         |
+| PostgreSQL   | Relational database                  |
+| Neon         | Cloud database                       |
+| Node.js      | Runtime environment                  |
+| Git          | Version control                      |
+| GitHub       | Source code repository               |
+
+If the final implementation uses different technologies, this section should be updated to match the actual project.
+
+---
+
+# 19. Implementation Phase
+
+## Current Phase
+
+**Project Phase: Implementation**
+
+The Madi-Alert project is currently in the implementation phase.
+
+The implementation phase converts the documented requirements and technical design into a working application.
+
+---
+
+# 20. Implementation Tasks
+
+## Phase 1 — Project Setup
+
+Tasks include:
+
+* Create the project
+* Configure Next.js
+* Configure TypeScript
+* Install dependencies
+* Configure Tailwind CSS
+* Configure Git
+* Create GitHub repository
+
+---
+
+## Phase 2 — Database Setup
+
+Tasks include:
+
+* Configure PostgreSQL/Neon
+* Install Prisma
+* Create Prisma schema
+* Create User model
+* Create FaultReport model
+* Define relationships
+* Generate Prisma Client
+* Connect application to database
+
+Example commands:
+
+```bash
+npx prisma generate
+```
+
+```bash
+npx prisma db push
+```
+
+Prisma Studio can be opened with:
+
+```bash
+npx prisma studio
+```
+
+---
+
+# 21. Phase 3 — User Interface
+
+The frontend includes:
+
+```text
+Home Page
+Report Fault Page
+Login Page
+Registration Page
+My Reports Page
+Report Details Page
+Admin Dashboard
+```
+
+The interface is designed to be simple and accessible.
+
+---
+
+# 22. Phase 4 — Fault Reporting
+
+The reporting form captures information such as:
+
+* Fault type
+* Description
+* Location
+* Priority
+* Contact information
+* Supporting information
+
+The application validates the information before saving the report.
+
+---
+
+# 23. Phase 5 — Fault Management
+
+Administrators can:
+
+* View reports
+* Review reports
+* Change status
+* Set priority
+* Update report information
+* Mark faults as resolved
+
+---
+
+# 24. Phase 6 — Testing
+
+The application should be tested throughout the implementation process.
+
+Testing includes:
+
+### Functional Testing
+
+* User registration
+* Login
+* Fault submission
+* Fault retrieval
+* Status updates
+* Report management
+
+### Validation Testing
+
+* Required fields
+* Invalid data
+* Missing information
+* Invalid user input
+
+### Security Testing
+
+* Authentication
+* Authorisation
+* Protected pages
+* Database security
+* Environment variables
+
+### UI Testing
+
+* Navigation
+* Forms
+* Responsive design
+* Error messages
+* Success messages
+
+---
+
+# 25. User Guide
+
+## 25.1 Requirements
+
+To use Madi-Alert, a user requires:
+
+* A modern web browser
+* Internet connection
+* A Madi-Alert account, where authentication is enabled
+
+---
+
+# 26. Registering
+
+If registration is enabled:
+
+1. Open Madi-Alert.
+2. Select **Register**.
+3. Enter your name.
+4. Enter your email address.
+5. Enter your password.
+6. Submit the registration form.
+7. The account is created.
+
+---
+
+# 27. Logging In
+
+1. Open Madi-Alert.
+2. Select **Login**.
+3. Enter your email address.
+4. Enter your password.
+5. Select **Login**.
+
+After successful authentication, the user is taken to the application dashboard.
+
+---
+
+# 28. Reporting a Water Fault
+
+To report a fault:
+
+1. Open Madi-Alert.
+2. Select **Report Fault**.
+3. Select the fault type.
+4. Enter a description of the problem.
+5. Enter the location.
+6. Select the priority if required.
+7. Check that the information is correct.
+8. Select **Submit Report**.
+
+The application saves the report and provides confirmation.
+
+---
+
+# 29. Viewing Reports
+
+To view previously submitted reports:
+
+1. Log into Madi-Alert.
+2. Open **My Reports**.
+3. Select a report.
+4. View the fault details.
+5. Check the current status.
+
+---
+
+# 30. Tracking a Report
+
+Each report can have a status.
+
+For example:
+
+```text
+Submitted
+```
+
+means that the report has been received.
+
+```text
+Under Review
+```
+
+means that the report is being assessed.
+
+```text
+Assigned
+```
+
+means that the fault has been assigned for action.
+
+```text
+In Progress
+```
+
+means that work is currently taking place.
+
+```text
+Resolved
+```
+
+means that the reported fault has been addressed.
+
+---
+
+# 31. Administrator Guide
+
+Administrators have additional functionality.
+
+## View Reports
+
+1. Log into the administrator account.
+2. Open the Admin Dashboard.
+3. View reported faults.
+4. Select a report to see its details.
+
+## Update a Report
+
+1. Open the report.
+2. Review the information.
+3. Update the status or priority.
+4. Save the changes.
+
+## Resolve a Fault
+
+1. Open the relevant report.
+2. Confirm that the fault has been addressed.
+3. Change the status to `RESOLVED`.
+4. Save the report.
+
+---
+
+# 32. Running the Project Locally
+
+Clone the repository:
+
+```bash
+git clone <YOUR-GITHUB-REPOSITORY-URL>
+```
+
+Navigate into the project:
+
+```bash
+cd madi-alert
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+---
+
+# 33. Environment Variables
+
+Create a local environment file:
+
+```text
+.env
+```
+
+Add the required configuration.
+
+Example:
+
+```text
+DATABASE_URL="your-database-connection-string"
+```
+
+Do not commit `.env` to GitHub.
+
+The `.gitignore` file should contain:
+
+```text
+node_modules/
+.next/
+.env
+.env.local
+.env.production
+```
+
+---
+
+# 34. Database Setup
+
+Generate Prisma Client:
+
+```bash
+npx prisma generate
+```
+
+Synchronise the database:
+
+```bash
+npx prisma db push
+```
+
+Open Prisma Studio:
+
+```bash
+npx prisma studio
+```
+
+---
+
+# 35. Start the Application
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Then open:
+
+```text
+http://localhost:3000
+```
+
+---
+
+# 36. Production Build
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+To start the production application:
+
+```bash
+npm start
+```
+
+---
+
+# 37. Project Structure
+
+Example project structure:
+
+```text
+madi-alert/
+│
+├── public/
+│
+├── prisma/
+│   └── schema.prisma
+│
+├── src/
+│   ├── app/
+│   ├── components/
+│   ├── server/
+│   └── styles/
+│
+├── .gitignore
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+The actual structure may change during implementation.
+
+---
+
+# 38. GitHub Development Workflow
+
+Changes should be committed regularly.
+
+Check project status:
+
+```bash
+git status
+```
+
+Add changes:
+
+```bash
+git add .
+```
+
+Commit changes:
+
+```bash
+git commit -m "Implement water fault reporting"
+```
+
+Push changes:
+
+```bash
+git push
+```
+
+Example commit messages:
+
+```text
+Initial project setup
+Add database schema
+Add user authentication
+Create fault reporting form
+Add fault report model
+Implement report submission
+Add report dashboard
+Add fault status management
+Improve validation
+Update documentation
+```
+
+---
+
+# 39. Project Status
+
+**Current Phase: Implementation**
+
+| Feature               | Status                |
+| --------------------- | --------------------- |
+| Project setup         | In Progress           |
+| Next.js configuration | In Progress           |
+| TypeScript            | In Progress           |
+| Database design       | In Progress           |
+| Prisma configuration  | In Progress           |
+| Neon database         | In Progress           |
+| User registration     | In Progress           |
+| Authentication        | In Progress           |
+| Fault reporting       | In Progress           |
+| Report management     | In Progress           |
+| Status tracking       | In Progress           |
+| Admin dashboard       | In Progress           |
+| Testing               | Planned / In Progress |
+| Documentation         | In Progress           |
+| Deployment            | Planned               |
+
+> Update these statuses as development progresses.
+
+---
+
+# 40. Future Improvements
+
+Future versions of Madi-Alert could include:
+
+* GPS location capture
+* Interactive map
+* Automatic location detection
+* Photo uploads
+* Push notifications
+* Email notifications
+* SMS notifications
+* Real-time report status updates
+* Fault prioritisation
+* Duplicate fault detection
+* Municipal/maintenance dashboard
+* Analytics dashboard
+* Report filtering
+* Search functionality
+* Mobile application
+* Progressive Web App support
+
+---
+
+# 41. Learning Outcomes
+
+Development of Madi-Alert demonstrates understanding of:
+
+* Requirements analysis
+* Use case design
+* Full-stack development
+* Frontend development
+* Backend development
+* Database design
+* PostgreSQL
+* Prisma ORM
+* Authentication
+* Authorisation
+* API/application communication
+* Form validation
+* Git
+* GitHub
+* Software testing
+* Technical documentation
+* User experience design
+
+---
+
+# 42. Conclusion
+
+Madi-Alert provides a digital solution for reporting and managing water-related faults.
+
+The system is designed to make it easier for community members to report problems while providing administrators or maintenance teams with structured information that can be reviewed and managed.
+
+The project is currently in the **implementation phase**, where the documented requirements and technical design are being converted into a functional application.
+
+The final system aims to provide a simple, reliable, and accessible platform for water fault reporting.
+
+---
+
+# 43. Project Information
+
+**Project Name:** Madi-Alert
+**Application:** Water Fault Reporting App
+**Assessment:** Final Project 1
+**Current Phase:** Implementation
+**Application Type:** Full-Stack Web Application
+**Repository:** GitHub
+
+---
+
+## License
+
+This project was developed for educational purposes as part of Final Project 1.
