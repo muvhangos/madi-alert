@@ -1,69 +1,121 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Madi Alert</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
   <style>
-    body{font-family:Arial;margin:0;background:#eef7fb;color:#123}
-    header{background:#087ea4;color:white;padding:18px;text-align:center}
-    main{max-width:900px;margin:20px auto;padding:20px}
-    .card{background:white;padding:20px;border-radius:14px;box-shadow:0 3px 15px #0001;margin-bottom:20px}
-    input,select,textarea,button{width:100%;padding:11px;margin:7px 0;box-sizing:border-box}
-    button{background:#087ea4;color:white;border:0;border-radius:8px;cursor:pointer}
-    #map{height:330px;border-radius:10px}
-    a{color:white}
-    #msg{font-weight:bold}
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #eef7fb;
+      color: #123;
+    }
+
+    header {
+      background: #087ea4;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 36px;
+    }
+
+    header p {
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 3px 15px #0001;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: 0;
+      border-radius: 8px;
+      background: #087ea4;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #056783;
+    }
+
+    .secondary {
+      background: #555;
+    }
+
+    .secondary:hover {
+      background: #333;
+    }
+
+    .admin {
+      margin-top: 25px;
+      color: white;
+    }
+
+    .admin a {
+      color: white;
+    }
   </style>
+
 </head>
+
 <body>
-<header><h1>💧 Madi Alert</h1><p>Report faulty water services in your area</p><a href="/login.html">Admin Login</a></header>
-<main>
-  <section class="card">
-    <h2>Report a Water Fault</h2>
-    <form id="reportForm">
-      <input name="name" placeholder="Your name (optional)">
-      <input name="phone" placeholder="Phone (optional)">
-      <select name="problem" required>
-        <option value="">Select problem</option>
-        <option>Water Leak</option>
-        <option>Burst Pipe</option>
-        <option>No Water</option>
-        <option>Low Water Pressure</option>
-        <option>Broken Meter</option>
-        <option>Other</option>
-      </select>
-      <textarea name="description" placeholder="Describe the problem" required></textarea>
-      <p><b>Click the map to mark the fault location.</b></p>
-      <div id="map"></div>
-      <input type="hidden" name="latitude" id="latitude">
-      <input type="hidden" name="longitude" id="longitude">
-      <input type="file" name="photo" accept="image/*">
-      <button>Submit Report</button>
-    </form>
-    <p id="msg"></p>
-  </section>
-</main>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const map=L.map("map").setView([-26.2041,28.0473],11);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap"}).addTo(map);
-let marker;
-map.on("click",e=>{
-  if(marker) marker.remove();
-  marker=L.marker(e.latlng).addTo(map);
-  latitude.value=e.latlng.lat;
-  longitude.value=e.latlng.lng;
-});
-reportForm.onsubmit=async e=>{
-  e.preventDefault();
-  if(!latitude.value) return msg.textContent="Please select the fault location on the map.";
-  const r=await fetch("/api/reports",{method:"POST",body:new FormData(reportForm)});
-  const data=await r.json();
-  msg.textContent=data.message;
-  if(r.ok) reportForm.reset();
-};
-</script>
+
+  <header>
+    <h1>💧 Madi Alert</h1>
+    <p>Report faulty water services in your area</p>
+
+
+<div class="admin">
+  <a href="/login.html">User Login</a>
+</div>
+
+
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Welcome to Madi Alert</h2>
+
+
+  <p>
+    Please create an account or login before reporting a faulty
+    water service.
+  </p>
+
+  <button onclick="window.location.href='/register.html'">
+    Create Account
+  </button>
+
+  <button onclick="window.location.href='/login.html'">
+    Login
+  </button>
+</section>
+
+
+  </main>
+
 </body>
 </html>

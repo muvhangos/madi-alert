@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Water Fault - Madi Alert</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #eef7fb;
+      color: #123;
+    }
+
+    header {
+      background: #087ea4;
+      color: white;
+      padding: 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 3px 15px #0001;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      width: 100%;
+      padding: 11px;
+      margin: 7px 0;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    button {
+      background: #087ea4;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #056783;
+    }
+
+    .logout {
+      background: #555;
+      max-width: 150px;
+    }
+
+    #map {
+      height: 330px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    #msg {
+      font-weight: bold;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<header>
+  <h1>💧 Madi Alert</h1>
+  <p>Report a faulty water service</p>
+  <button class="logout" id="logoutButton">Logout</button>
+</header>
+
+<main>
+
+  <section class="card">
+
+
+<h2>Report a Water Fault</h2>
+
+<p id="welcome"></p>
+
+<form id="reportForm">
+
+  <input
+    name="name"
+    id="name"
+    placeholder="Your name"
+  >
+
+  <input
+    name="phone"
+    id="phone"
+    placeholder="Phone number"
+  >
+
+  <select name="problem" required>
+    <option value="">Select problem</option>
+    <option value="Water Leak">Water Leak</option>
+    <option value="Burst Pipe">Burst Pipe</option>
+    <option value="No Water">No Water</option>
+    <option value="Low Water Pressure">Low Water Pressure</option>
+    <option value="Broken Meter">Broken Meter</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <textarea
+    name="description"
+    placeholder="Describe the problem"
+    required
+  ></textarea>
+
+  <p>
+    <b>Click the map to mark the fault location.</b>
+  </p>
+
+  <div id="map"></div>
+
+  <input
+    type="hidden"
+    name="latitude"
+    id="latitude"
+  >
+
+  <input
+    type="hidden"
+    name="longitude"
+    id="longitude"
+  >
+
+  <input
+    type="file"
+    name="photo"
+    accept="image/*"
+  >
+
+  <button type="submit">
+    Submit Report
+  </button>
+
+</form>
+
+<p id="msg"></p>
+
+
+  </section>
+
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+const token = localStorage.getItem("madiAlertToken");
+
+if (!token) {
+  window.location.href = "/login.html";
+}
+
+const userData = localStorage.getItem("madiAlertUser");
+
+if (userData) {
+  const user = JSON.parse(userData);
+
+  document.getElementById("name").value = user.name || "";
+  document.getElementById("phone").value = user.phoneNumber || "";
+
+  document.getElementById("welcome").textContent =
+    "Welcome, " + (user.name || "User") + ".";
+}
+
+const map = L.map("map").setView(
+  [-26.2041, 28.0473],
+  11
+);
+
+L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    attribution: "© OpenStreetMap"
+  }
+).addTo(map);
+
+let marker;
+
+map.on("click", function(event) {
+
+  if (marker) {
+    marker.remove();
+  }
+
+  marker = L.marker(event.latlng).addTo(map);
+
+  document.getElementById("latitude").value =
+    event.latlng.lat;
+
+  document.getElementById("longitude").value =
+    event.latlng.lng;
+});
+
+document.getElementById("reportForm").addEventListener(
+  "submit",
+  async function(event) {
+
+    event.preventDefault();
+
+    const latitude =
+      document.getElementById("latitude").value;
+
+    const longitude =
+      document.getElementById("longitude").value;
+
+    const msg =
+      document.getElementById("msg");
+
+    if (!latitude || !longitude) {
+      msg.textContent =
+        "Please select the fault location on the map.";
+      return;
+    }
+
+    const formData =
+      new FormData(this);
+
+    try {
+
+      const response = await fetch(
+        "/api/reports",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token
+          },
+          body: formData
+        }
+      );
+
+      const data = await response.json();
+
+      msg.textContent = data.message;
+
+      if (response.status === 401) {
+        localStorage.removeItem("madiAlertToken");
+        localStorage.removeItem("madiAlertUser");
+        window.location.href = "/login.html";
+        return;
+      }
+
+      if (response.ok) {
+        this.reset();
+
+        document.getElementById("latitude").value = "";
+        document.getElementById("longitude").value = "";
+
+        if (marker) {
+          marker.remove();
+          marker = null;
+        }
+      }
+
+    } catch (error) {
+
+      msg.textContent =
+        "Unable to submit the report.";
+
+    }
+  }
+);
+
+document.getElementById("logoutButton").addEventListener(
+  "click",
+  function() {
+
+    localStorage.removeItem("madiAlertToken");
+    localStorage.removeItem("madiAlertUser");
+
+    window.location.href = "/";
+
+  }
+);
+</script>
+
+</body>
+</html>

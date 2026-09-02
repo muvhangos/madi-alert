@@ -12,7 +12,7 @@ content="width=device-width, initial-scale=1.0"
 >
 
   <title>
-    Madi Alert Login
+    Create Madi Alert Account
   </title>
 
   <style>
@@ -24,18 +24,23 @@ content="width=device-width, initial-scale=1.0"
     }
 
     .container {
-      max-width: 500px;
-      margin: 50px auto;
+      max-width: 450px;
+      margin: 60px auto;
       background: white;
       padding: 30px;
-      border-radius: 14px;
+      border-radius: 15px;
       box-shadow:
-        0 3px 15px #0001;
+        0 4px 20px
+        rgba(0, 0, 0, 0.1);
     }
 
     h1,
     h2 {
       text-align: center;
+    }
+
+    h1 {
+      color: #087ea4;
     }
 
     input,
@@ -44,19 +49,23 @@ content="width=device-width, initial-scale=1.0"
       padding: 12px;
       margin: 8px 0;
       box-sizing: border-box;
+      border-radius: 8px;
       font-size: 16px;
     }
 
+    input {
+      border: 1px solid #ccc;
+    }
+
     button {
+      border: none;
       background: #087ea4;
       color: white;
-      border: 0;
-      border-radius: 8px;
       cursor: pointer;
     }
 
     button:hover {
-      background: #056783;
+      background: #066681;
     }
 
     button:disabled {
@@ -64,24 +73,26 @@ content="width=device-width, initial-scale=1.0"
       cursor: not-allowed;
     }
 
-    #verificationSection {
-      display: none;
-    }
-
     #message {
-      font-weight: bold;
       text-align: center;
+      font-weight: bold;
       min-height: 24px;
     }
 
-    .links {
+    .login {
       text-align: center;
       margin-top: 20px;
+    }
+
+    a {
+      color: #087ea4;
+      font-weight: bold;
     }
 
     .hint {
       font-size: 13px;
       color: #555;
+      margin-top: 0;
     }
   </style>
 
@@ -94,66 +105,41 @@ content="width=device-width, initial-scale=1.0"
 
 <h1>💧 Madi Alert</h1>
 
-<h2>Login</h2>
+<h2>Create Account</h2>
 
-<div id="phoneSection">
+<input
+  type="text"
+  id="name"
+  placeholder="Full Name"
+  autocomplete="name"
+>
 
-  <input
-    type="tel"
-    id="phoneNumber"
-    placeholder="+27821234567"
-    autocomplete="tel"
-  >
+<input
+  type="tel"
+  id="phoneNumber"
+  placeholder="+27821234567"
+  autocomplete="tel"
+>
 
-  <p class="hint">
-    Enter your mobile number with the country code.
-  </p>
+<p class="hint">
+  Enter your mobile number with the country code.
+  Example: +27821234567
+</p>
 
-  <button
-    type="button"
-    id="sendCodeButton"
-  >
-    Send Verification Code
-  </button>
-
-</div>
-
-<div id="verificationSection">
-
-  <input
-    type="text"
-    id="verificationCode"
-    placeholder="Enter 6-digit verification code"
-    maxlength="6"
-    inputmode="numeric"
-  >
-
-  <button
-    type="button"
-    id="verifyCodeButton"
-  >
-    Login
-  </button>
-
-</div>
+<button
+  type="button"
+  id="registerButton"
+>
+  Create Account
+</button>
 
 <p id="message"></p>
 
-<div class="links">
-
-  <p>
-    New user?
-    <a href="/register.html">
-      Create Account
-    </a>
-  </p>
-
-  <p>
-    <a href="/">
-      Back to Home
-    </a>
-  </p>
-
+<div class="login">
+  Already have an account?
+  <a href="/login.html">
+    Login
+  </a>
 </div>
 
 
