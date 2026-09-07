@@ -1,360 +1,279 @@
-const sendCodeButton =
-document.getElementById(
-"sendCodeButton"
-);
+document.addEventListener("DOMContentLoaded", function () {
+  const registerButton = document.getElementById("registerButton");
+  const loginButton = document.getElementById("loginButton");
+  const logoutButton = document.getElementById("logoutButton");
 
-const verifyCodeButton =
-document.getElementById(
-"verifyCodeButton"
-);
+  /*
+   * REGISTER
+   * Creates an account using:
+   * - Name
+   * - Phone number
+   * - Password
+   */
+  if (registerButton) {
+    registerButton.addEventListener("click", async function () {
+      const nameElement = document.getElementById("name");
+      const phoneElement = document.getElementById("phoneNumber");
+      const passwordElement = document.getElementById("password");
+      const messageElement = document.getElementById("message");
 
-const registerButton =
-document.getElementById(
-"registerButton"
-);
+      const name = nameElement ? nameElement.value.trim() : "";
+      const phoneNumber = phoneElement
+        ? phoneElement.value.trim()
+        : "";
+      const password = passwordElement
+        ? passwordElement.value
+        : "";
 
-if (registerButton) {
-registerButton.addEventListener(
-"click",
-async function () {
-const nameInput =
-document.getElementById(
-"name"
-);
-
-
-  const phoneInput =
-    document.getElementById(
-      "phoneNumber"
-    );
-
-  const message =
-    document.getElementById(
-      "message"
-    );
-
-  const name =
-    nameInput
-      ? nameInput.value.trim()
-      : "";
-
-  const phoneNumber =
-    phoneInput
-      ? phoneInput.value.trim()
-      : "";
-
-  if (
-    !name ||
-    !phoneNumber
-  ) {
-    message.textContent =
-      "Please enter your name and mobile number.";
-
-    return;
-  }
-
-  try {
-    registerButton.disabled =
-      true;
-
-    registerButton.textContent =
-      "Creating Account...";
-
-    message.textContent =
-      "";
-
-    const response =
-      await fetch(
-        "/api/auth/register",
-        {
-          method:
-            "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify({
-              name:
-                name,
-
-              phoneNumber:
-                phoneNumber
-            })
-        }
-      );
-
-    const data =
-      await response.json();
-
-    message.textContent =
-      data.message;
-
-    if (response.ok) {
-      registerButton.textContent =
-        "Account Created";
-
-      setTimeout(
-        function () {
-          window.location.href =
-            "/login.html";
-        },
-        1500
-      );
-    } else {
-      registerButton.disabled =
-        false;
-
-      registerButton.textContent =
-        "Create Account";
-    }
-  } catch (error) {
-    console.error(
-      "Registration error:",
-      error
-    );
-
-    message.textContent =
-      "Unable to create account. Please try again.";
-
-    registerButton.disabled =
-      false;
-
-    registerButton.textContent =
-      "Create Account";
-  }
-}
-
-
-);
-}
-
-if (sendCodeButton) {
-sendCodeButton.addEventListener(
-"click",
-async function () {
-const phoneInput =
-document.getElementById(
-"phoneNumber"
-);
-
-
-  const message =
-    document.getElementById(
-      "message"
-    );
-
-  const verificationSection =
-    document.getElementById(
-      "verificationSection"
-    );
-
-  const phoneNumber =
-    phoneInput
-      ? phoneInput.value.trim()
-      : "";
-
-  if (!phoneNumber) {
-    message.textContent =
-      "Please enter your mobile number.";
-
-    return;
-  }
-
-  try {
-    sendCodeButton.disabled =
-      true;
-
-    sendCodeButton.textContent =
-      "Sending...";
-
-    message.textContent =
-      "";
-
-    const response =
-      await fetch(
-        "/api/auth/send-code",
-        {
-          method:
-            "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify({
-              phoneNumber:
-                phoneNumber
-            })
-        }
-      );
-
-    const data =
-      await response.json();
-
-    message.textContent =
-      data.message;
-
-    if (response.ok) {
-      if (
-        verificationSection
-      ) {
-        verificationSection.style.display =
-          "block";
+      if (!name || !phoneNumber || !password) {
+        showMessage(
+          messageElement,
+          "Please enter your name, mobile number and password.",
+          true
+        );
+        return;
       }
 
-      sendCodeButton.textContent =
-        "Verification Code Sent";
-    } else {
-      sendCodeButton.disabled =
-        false;
+      if (!phoneNumber.startsWith("+")) {
+        showMessage(
+          messageElement,
+          "Please enter your mobile number with the country code. Example: +27821234567",
+          true
+        );
+        return;
+      }
 
-      sendCodeButton.textContent =
-        "Send Verification Code";
-    }
-  } catch (error) {
-    console.error(
-      "Send code error:",
-      error
-    );
+      if (password.length < 6) {
+        showMessage(
+          messageElement,
+          "Password must be at least 6 characters long.",
+          true
+        );
+        return;
+      }
 
-    message.textContent =
-      "Unable to send verification code. Please try again.";
+      registerButton.disabled = true;
+      registerButton.textContent = "Creating Account...";
 
-    sendCodeButton.disabled =
-      false;
+      try {
+        const response = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: name,
+            phoneNumber: phoneNumber,
+            password: password
+          })
+        });
 
-    sendCodeButton.textContent =
-      "Send Verification Code";
+        const data = await response.json();
+
+        if (!response.ok) {
+          showMessage(
+            messageElement,
+            data.message || "Unable to create account.",
+            true
+          );
+          return;
+        }
+
+        showMessage(
+          messageElement,
+          "Account created successfully. Redirecting to login...",
+          false
+        );
+
+        setTimeout(function () {
+          window.location.href = "/login.html";
+        }, 1200);
+      } catch (error) {
+        console.error("Registration error:", error);
+
+        showMessage(
+          messageElement,
+          "Unable to connect to the server. Please try again.",
+          true
+        );
+      } finally {
+        registerButton.disabled = false;
+        registerButton.textContent = "Create Account";
+      }
+    });
   }
-}
+
+  /*
+   * LOGIN
+   * Logs in using:
+   * - Phone number
+   * - Password
+   */
+  if (loginButton) {
+    loginButton.addEventListener("click", async function () {
+      const phoneElement = document.getElementById("phoneNumber");
+      const passwordElement = document.getElementById("password");
+      const messageElement = document.getElementById("message");
+
+      const phoneNumber = phoneElement
+        ? phoneElement.value.trim()
+        : "";
+
+      const password = passwordElement
+        ? passwordElement.value
+        : "";
+
+      if (!phoneNumber || !password) {
+        showMessage(
+          messageElement,
+          "Please enter your mobile number and password.",
+          true
+        );
+        return;
+      }
+
+      if (!phoneNumber.startsWith("+")) {
+        showMessage(
+          messageElement,
+          "Please enter your mobile number with the country code. Example: +27821234567",
+          true
+        );
+        return;
+      }
+
+      loginButton.disabled = true;
+      loginButton.textContent = "Logging in...";
+
+      try {
+        const response = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            phoneNumber: phoneNumber,
+            password: password
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          showMessage(
+            messageElement,
+            data.message || "Login failed.",
+            true
+          );
+          return;
+        }
+
+        localStorage.setItem(
+          "madiAlertToken",
+          data.token
+        );
+
+        localStorage.setItem(
+          "madiAlertUser",
+          JSON.stringify(data.user)
+        );
+
+        showMessage(
+          messageElement,
+          "Login successful. Redirecting...",
+          false
+        );
+
+        setTimeout(function () {
+          window.location.href = "/";
+        }, 800);
+      } catch (error) {
+        console.error("Login error:", error);
+
+        showMessage(
+          messageElement,
+          "Unable to connect to the server. Please try again.",
+          true
+        );
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "Login";
+      }
+    });
+  }
+
+  /*
+   * LOGOUT
+   */
+  if (logoutButton) {
+    logoutButton.addEventListener("click", async function () {
+      const token =
+        localStorage.getItem("madiAlertToken");
+
+      try {
+        if (token) {
+          await fetch("/api/auth/logout", {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + token
+            }
+          });
+        }
+      } catch (error) {
+        console.error("Logout request error:", error);
+      }
+
+      localStorage.removeItem("madiAlertToken");
+      localStorage.removeItem("madiAlertUser");
+
+      window.location.href = "/login.html";
+    });
+  }
+});
 
 
-);
-}
-
-if (verifyCodeButton) {
-verifyCodeButton.addEventListener(
-"click",
-async function () {
-const phoneInput =
-document.getElementById(
-"phoneNumber"
-);
-
-
-  const verificationCodeInput =
-    document.getElementById(
-      "verificationCode"
-    );
-
-  const message =
-    document.getElementById(
-      "message"
-    );
-
-  const phoneNumber =
-    phoneInput
-      ? phoneInput.value.trim()
-      : "";
-
-  const verificationCode =
-    verificationCodeInput
-      ? verificationCodeInput.value.trim()
-      : "";
-
-  if (
-    !phoneNumber ||
-    !verificationCode
-  ) {
-    message.textContent =
-      "Please enter your mobile number and verification code.";
-
+/*
+ * DISPLAY MESSAGE
+ */
+function showMessage(element, message, isError) {
+  if (!element) {
+    alert(message);
     return;
   }
 
-  try {
-    verifyCodeButton.disabled =
-      true;
+  element.textContent = message;
 
-    verifyCodeButton.textContent =
-      "Logging in...";
-
-    message.textContent =
-      "";
-
-    const response =
-      await fetch(
-        "/api/auth/verify-code",
-        {
-          method:
-            "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify({
-              phoneNumber:
-                phoneNumber,
-
-              verificationCode:
-                verificationCode
-            })
-        }
-      );
-
-    const data =
-      await response.json();
-
-    message.textContent =
-      data.message;
-
-    if (response.ok) {
-      localStorage.setItem(
-        "madiAlertToken",
-        data.token
-      );
-
-      localStorage.setItem(
-        "madiAlertUser",
-        JSON.stringify(
-          data.user
-        )
-      );
-
-      window.location.href =
-        "/";
-    } else {
-      verifyCodeButton.disabled =
-        false;
-
-      verifyCodeButton.textContent =
-        "Login";
-    }
-  } catch (error) {
-    console.error(
-      "Login error:",
-      error
-    );
-
-    message.textContent =
-      "Login failed. Please try again.";
-
-    verifyCodeButton.disabled =
-      false;
-
-    verifyCodeButton.textContent =
-      "Login";
+  if (isError) {
+    element.style.color = "red";
+  } else {
+    element.style.color = "green";
   }
 }
 
 
-);
+/*
+ * GET STORED LOGIN TOKEN
+ *
+ * Other pages can use this function when
+ * making requests to protected API routes.
+ */
+function getAuthToken() {
+  return localStorage.getItem("madiAlertToken");
+}
+
+
+/*
+ * GET STORED USER
+ */
+function getLoggedInUser() {
+  const user = localStorage.getItem("madiAlertUser");
+
+  if (!user) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(user);
+  } catch (error) {
+    return null;
+  }
 }

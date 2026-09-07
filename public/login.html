@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-
->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>
     Madi Alert Login
@@ -47,6 +45,11 @@ content="width=device-width, initial-scale=1.0"
       font-size: 16px;
     }
 
+    input {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
     button {
       background: #087ea4;
       color: white;
@@ -64,10 +67,6 @@ content="width=device-width, initial-scale=1.0"
       cursor: not-allowed;
     }
 
-    #verificationSection {
-      display: none;
-    }
-
     #message {
       font-weight: bold;
       text-align: center;
@@ -83,6 +82,11 @@ content="width=device-width, initial-scale=1.0"
       font-size: 13px;
       color: #555;
     }
+
+    a {
+      color: #087ea4;
+      font-weight: bold;
+    }
   </style>
 
 </head>
@@ -91,71 +95,54 @@ content="width=device-width, initial-scale=1.0"
 
   <div class="container">
 
+    <h1>💧 Madi Alert</h1>
 
-<h1>💧 Madi Alert</h1>
+    <h2>Login</h2>
 
-<h2>Login</h2>
+    <input
+      type="tel"
+      id="phoneNumber"
+      placeholder="+27821234567"
+      autocomplete="tel"
+    >
 
-<div id="phoneSection">
+    <p class="hint">
+      Enter your mobile number with the country code.
+      Example: +27821234567
+    </p>
 
-  <input
-    type="tel"
-    id="phoneNumber"
-    placeholder="+27821234567"
-    autocomplete="tel"
-  >
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
 
-  <p class="hint">
-    Enter your mobile number with the country code.
-  </p>
+    <button
+      type="button"
+      id="loginButton"
+    >
+      Login
+    </button>
 
-  <button
-    type="button"
-    id="sendCodeButton"
-  >
-    Send Verification Code
-  </button>
+    <p id="message"></p>
 
-</div>
+    <div class="links">
 
-<div id="verificationSection">
+      <p>
+        New user?
+        <a href="/register.html">
+          Create Account
+        </a>
+      </p>
 
-  <input
-    type="text"
-    id="verificationCode"
-    placeholder="Enter 6-digit verification code"
-    maxlength="6"
-    inputmode="numeric"
-  >
+      <p>
+        <a href="/">
+          Back to Home
+        </a>
+      </p>
 
-  <button
-    type="button"
-    id="verifyCodeButton"
-  >
-    Login
-  </button>
-
-</div>
-
-<p id="message"></p>
-
-<div class="links">
-
-  <p>
-    New user?
-    <a href="/register.html">
-      Create Account
-    </a>
-  </p>
-
-  <p>
-    <a href="/">
-      Back to Home
-    </a>
-  </p>
-
-</div>
-
+    </div>
 
   </div>
 
@@ -164,3 +151,4 @@ content="width=device-width, initial-scale=1.0"
 </body>
 
 </html>
+

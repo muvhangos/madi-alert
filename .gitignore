@@ -1,3 +1,15 @@
 node_modules/
 .env
 *.log
+
+# Madi Alert private/runtime data
+users.json
+reports.json
+uploads/
+.env
+server copy.js
+server-backup.js
+server.before-password-auth.js
+public/auth.before-password-auth.js
+public/login.before-password-auth.html
+public/register.before-password-auth.html

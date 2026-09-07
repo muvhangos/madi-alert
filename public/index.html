@@ -1,121 +1,1206 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Madi Alert</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Madi Alert | Report Water Fault</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #eef7fb;
-      color: #123;
+    * {
+      box-sizing: border-box;
     }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f1f7fa;
+      color: #16323d;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
 
     header {
-      background: #087ea4;
+      background: linear-gradient(135deg, #087ea4, #075b78);
       color: white;
-      padding: 30px 20px;
-      text-align: center;
+      padding: 22px 20px;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
     }
 
-    header h1 {
-      margin: 0 0 10px;
-      font-size: 36px;
+    .header-content {
+      max-width: 1000px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
     }
 
-    header p {
-      font-size: 18px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 27px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .logout {
+      width: auto;
+      margin: 0;
+      padding: 10px 18px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .logout:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+      max-width: 1000px;
+      margin: 35px auto;
+      padding: 0 20px 50px;
+    }
+
+    .welcome {
       margin-bottom: 25px;
     }
 
-    main {
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 20px;
+    .welcome h2 {
+      margin: 0 0 7px;
+      font-size: 28px;
+      color: #123f50;
     }
+
+    .welcome p {
+      margin: 0;
+      color: #607780;
+    }
+
+    /* =========================
+       CARD
+    ========================= */
 
     .card {
       background: white;
-      padding: 30px;
-      border-radius: 14px;
-      box-shadow: 0 3px 15px #0001;
-      text-align: center;
+      border-radius: 18px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
     }
 
-    button {
-      width: 100%;
-      padding: 14px;
-      margin: 10px 0;
-      border: 0;
-      border-radius: 8px;
+    .card-header {
+      padding: 25px 30px;
+      border-bottom: 1px solid #e6eef1;
+    }
+
+    .card-header h3 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      color: #123f50;
+    }
+
+    .card-header p {
+      margin: 0;
+      color: #71848b;
+      font-size: 14px;
+    }
+
+    .form-content {
+      padding: 30px;
+    }
+
+    /* =========================
+       SECTIONS
+    ========================= */
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .section-number {
+      width: 30px;
+      height: 30px;
       background: #087ea4;
       color: white;
-      font-size: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .section-title h4 {
+      margin: 0;
+      font-size: 17px;
+      color: #173f4d;
+    }
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #38545e;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d3e0e5;
+      border-radius: 9px;
+      font-size: 15px;
+      font-family: inherit;
+      background: white;
+      color: #16323d;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #087ea4;
+      box-shadow: 0 0 0 3px rgba(8, 126, 164, 0.1);
+    }
+
+    input[readonly] {
+      background: #f5f8f9;
+      color: #536a73;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .hint {
+      margin: 7px 0 0;
+      color: #7a8d94;
+      font-size: 12px;
+    }
+
+    /* =========================
+       MAP
+    ========================= */
+
+    .map-box {
+      border: 1px solid #d3e0e5;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5f8f9;
+    }
+
+    #map {
+      height: 360px;
+      width: 100%;
+    }
+
+    .location-status {
+      padding: 12px 15px;
+      background: #f7fafb;
+      border-top: 1px solid #dce7ea;
+      font-size: 13px;
+      color: #697f87;
+    }
+
+    .location-status.selected {
+      color: #087ea4;
+      font-weight: bold;
+    }
+
+    /* =========================
+       PHOTO
+    ========================= */
+
+    .photo-upload {
+      border: 2px dashed #cbdde3;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      background: #f9fcfd;
+    }
+
+    .photo-icon {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .photo-upload p {
+      margin: 5px 0 12px;
+      color: #6c8189;
+      font-size: 13px;
+    }
+
+    .photo-upload input {
+      border: none;
+      padding: 5px;
+      background: transparent;
+    }
+
+    /* =========================
+       SUBMIT
+    ========================= */
+
+    .submit-area {
+      padding-top: 10px;
+      border-top: 1px solid #e6eef1;
+    }
+
+    .submit-button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #087ea4, #075b78);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
       cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
     }
 
-    button:hover {
-      background: #056783;
+    .submit-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(8, 126, 164, 0.25);
     }
 
-    .secondary {
-      background: #555;
+    .submit-button:disabled {
+      background: #91a5ac;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
 
-    .secondary:hover {
-      background: #333;
+    /* =========================
+       MESSAGE
+    ========================= */
+
+    #msg {
+      margin: 15px 0 0;
+      padding: 13px;
+      border-radius: 9px;
+      text-align: center;
+      font-weight: bold;
+      min-height: 0;
     }
 
-    .admin {
-      margin-top: 25px;
-      color: white;
+    #msg.success {
+      background: #e9f7ef;
+      color: #24733f;
     }
 
-    .admin a {
-      color: white;
+    #msg.error {
+      background: #fff0f0;
+      color: #b33333;
     }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #789099;
+      font-size: 12px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 700px) {
+
+      header {
+        padding: 18px 15px;
+      }
+
+      .header-content {
+        align-items: flex-start;
+      }
+
+      .brand h1 {
+        font-size: 21px;
+      }
+
+      .brand p {
+        font-size: 12px;
+      }
+
+      .brand-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 23px;
+      }
+
+      .logout {
+        padding: 9px 12px;
+        font-size: 13px;
+      }
+
+      main {
+        margin: 20px auto;
+        padding: 0 12px 35px;
+      }
+
+      .welcome h2 {
+        font-size: 23px;
+      }
+
+      .card-header,
+      .form-content {
+        padding: 20px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      #map {
+        height: 300px;
+      }
+    }
+
   </style>
 
 </head>
 
 <body>
 
-  <header>
-    <h1>💧 Madi Alert</h1>
-    <p>Report faulty water services in your area</p>
+<header>
+
+  <div class="header-content">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        💧
+      </div>
+
+      <div>
+        <h1>Madi Alert</h1>
+        <p>Water fault reporting service</p>
+      </div>
+
+    </div>
+
+    <button
+      type="button"
+      class="logout"
+      id="logoutButton"
+    >
+      Logout
+    </button>
+
+  </div>
+
+</header>
 
 
-<div class="admin">
-  <a href="/login.html">User Login</a>
-</div>
+<main>
+
+  <div class="welcome">
+
+    <h2 id="welcome">
+      Welcome
+    </h2>
+
+    <p>
+      Help us identify and respond to water service problems in your area.
+    </p>
+
+  </div>
 
 
-  </header>
+  <section class="card">
 
-  <main>
-    <section class="card">
-      <h2>Welcome to Madi Alert</h2>
+    <div class="card-header">
 
+      <h3>
+        Report a Water Fault
+      </h3>
 
-  <p>
-    Please create an account or login before reporting a faulty
-    water service.
-  </p>
+      <p>
+        Complete the form below and provide the location of the fault.
+      </p>
 
-  <button onclick="window.location.href='/register.html'">
-    Create Account
-  </button>
-
-  <button onclick="window.location.href='/login.html'">
-    Login
-  </button>
-</section>
+    </div>
 
 
-  </main>
+    <div class="form-content">
+
+      <form id="reportForm">
+
+
+        <!-- =========================
+             USER INFORMATION
+        ========================== -->
+
+        <div class="section">
+
+          <div class="section-title">
+
+            <div class="section-number">
+              1
+            </div>
+
+            <h4>
+              Your Information
+            </h4>
+
+          </div>
+
+
+          <div class="form-row">
+
+            <div class="field">
+
+              <label for="name">
+                Full Name
+              </label>
+
+              <input
+                name="name"
+                id="name"
+                placeholder="Your name"
+                readonly
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="phone">
+                Mobile Number
+              </label>
+
+              <input
+                name="phone"
+                id="phone"
+                placeholder="Phone number"
+                readonly
+              >
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             FAULT DETAILS
+        ========================== -->
+
+        <div class="section">
+
+          <div class="section-title">
+
+            <div class="section-number">
+              2
+            </div>
+
+            <h4>
+              Fault Details
+            </h4>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="problem">
+              Type of Problem
+            </label>
+
+            <select
+              name="problem"
+              id="problem"
+              required
+            >
+
+              <option value="">
+                Select problem
+              </option>
+
+              <option value="Water Leak">
+                Water Leak
+              </option>
+
+              <option value="Burst Pipe">
+                Burst Pipe
+              </option>
+
+              <option value="No Water">
+                No Water
+              </option>
+
+              <option value="Low Water Pressure">
+                Low Water Pressure
+              </option>
+
+              <option value="Broken Meter">
+                Broken Meter
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="description">
+              Description
+            </label>
+
+            <textarea
+              name="description"
+              id="description"
+              placeholder="Please describe the water fault..."
+              required
+            ></textarea>
+
+            <p class="hint">
+              Provide as much detail as possible to help us understand the problem.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             LOCATION
+        ========================== -->
+
+        <div class="section">
+
+          <div class="section-title">
+
+            <div class="section-number">
+              3
+            </div>
+
+            <h4>
+              Fault Location
+            </h4>
+
+          </div>
+
+
+          <p class="hint">
+            Click on the map to mark the exact location of the water fault.
+          </p>
+
+
+          <div class="map-box">
+
+            <div id="map"></div>
+
+            <div
+              id="locationStatus"
+              class="location-status"
+            >
+              📍 No location selected yet. Click the map to select one.
+            </div>
+
+          </div>
+
+
+          <input
+            type="hidden"
+            name="latitude"
+            id="latitude"
+          >
+
+          <input
+            type="hidden"
+            name="longitude"
+            id="longitude"
+          >
+
+        </div>
+
+
+        <!-- =========================
+             PHOTO
+        ========================== -->
+
+        <div class="section">
+
+          <div class="section-title">
+
+            <div class="section-number">
+              4
+            </div>
+
+            <h4>
+              Add a Photo
+            </h4>
+
+          </div>
+
+
+          <div class="photo-upload">
+
+            <div class="photo-icon">
+              📷
+            </div>
+
+            <p>
+              A photo can help us understand the problem faster.
+            </p>
+
+            <input
+              type="file"
+              name="photo"
+              id="photo"
+              accept="image/*"
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             SUBMIT
+        ========================== -->
+
+        <div class="submit-area">
+
+          <button
+            type="submit"
+            class="submit-button"
+            id="submitButton"
+          >
+            Submit Water Fault Report
+          </button>
+
+          <p id="msg"></p>
+
+        </div>
+
+
+      </form>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  Madi Alert &copy; 2026
+  <br>
+  Helping communities report water service problems.
+
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<script>
+
+// ==================================================
+// AUTHENTICATION
+// ==================================================
+
+const token =
+  localStorage.getItem("madiAlertToken");
+
+
+if (!token) {
+
+  window.location.href =
+    "/login.html";
+
+}
+
+
+// ==================================================
+// LOAD USER
+// ==================================================
+
+const userData =
+  localStorage.getItem("madiAlertUser");
+
+
+if (userData) {
+
+  try {
+
+    const user =
+      JSON.parse(userData);
+
+
+    document.getElementById("name").value =
+      user.name || "";
+
+
+    document.getElementById("phone").value =
+      user.phoneNumber || "";
+
+
+    document.getElementById("welcome").textContent =
+      "Welcome, " + (user.name || "User");
+
+  } catch (error) {
+
+    console.error(
+      "Unable to load user information.",
+      error
+    );
+
+  }
+
+}
+
+
+// ==================================================
+// MAP
+// ==================================================
+
+const map =
+  L.map("map").setView(
+    [-26.2041, 28.0473],
+    11
+  );
+
+
+L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    attribution:
+      "© OpenStreetMap"
+  }
+).addTo(map);
+
+
+let marker = null;
+
+
+// ==================================================
+// MAP CLICK
+// ==================================================
+
+map.on(
+  "click",
+  function(event) {
+
+    if (marker) {
+
+      marker.remove();
+
+    }
+
+
+    marker =
+      L.marker(event.latlng)
+        .addTo(map);
+
+
+    const latitude =
+      event.latlng.lat;
+
+
+    const longitude =
+      event.latlng.lng;
+
+
+    document.getElementById(
+      "latitude"
+    ).value =
+      latitude;
+
+
+    document.getElementById(
+      "longitude"
+    ).value =
+      longitude;
+
+
+    const status =
+      document.getElementById(
+        "locationStatus"
+      );
+
+
+    status.textContent =
+      "✓ Location selected: " +
+      latitude.toFixed(6) +
+      ", " +
+      longitude.toFixed(6);
+
+
+    status.classList.add(
+      "selected"
+    );
+
+  }
+);
+
+
+// ==================================================
+// REPORT SUBMISSION
+// ==================================================
+
+document.getElementById(
+  "reportForm"
+).addEventListener(
+  "submit",
+  async function(event) {
+
+    event.preventDefault();
+
+
+    const msg =
+      document.getElementById("msg");
+
+
+    const submitButton =
+      document.getElementById(
+        "submitButton"
+      );
+
+
+    const latitude =
+      document.getElementById(
+        "latitude"
+      ).value;
+
+
+    const longitude =
+      document.getElementById(
+        "longitude"
+      ).value;
+
+
+    msg.textContent = "";
+    msg.className = "";
+
+
+    // ----------------------------------------------
+    // Require map location
+    // ----------------------------------------------
+
+    if (!latitude || !longitude) {
+
+      msg.textContent =
+        "Please select the fault location on the map.";
+
+      msg.className =
+        "error";
+
+      document.getElementById(
+        "locationStatus"
+      ).scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+      return;
+
+    }
+
+
+    const formData =
+      new FormData(this);
+
+
+    submitButton.disabled =
+      true;
+
+
+    submitButton.textContent =
+      "Submitting Report...";
+
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/reports",
+          {
+            method: "POST",
+
+            headers: {
+              Authorization:
+                "Bearer " + token
+            },
+
+            body: formData
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      // --------------------------------------------
+      // Authentication expired
+      // --------------------------------------------
+
+      if (response.status === 401) {
+
+        localStorage.removeItem(
+          "madiAlertToken"
+        );
+
+        localStorage.removeItem(
+          "madiAlertUser"
+        );
+
+        window.location.href =
+          "/login.html";
+
+        return;
+
+      }
+
+
+      // --------------------------------------------
+      // Success
+      // --------------------------------------------
+
+      if (response.ok) {
+
+        msg.textContent =
+          "✓ Report submitted successfully! Thank you for helping your community.";
+
+        msg.className =
+          "success";
+
+
+        this.reset();
+
+
+        // Restore logged-in user's details
+        if (userData) {
+
+          try {
+
+            const user =
+              JSON.parse(userData);
+
+
+            document.getElementById(
+              "name"
+            ).value =
+              user.name || "";
+
+
+            document.getElementById(
+              "phone"
+            ).value =
+              user.phoneNumber || "";
+
+          } catch (error) {
+
+            console.error(error);
+
+          }
+
+        }
+
+
+        document.getElementById(
+          "latitude"
+        ).value = "";
+
+
+        document.getElementById(
+          "longitude"
+        ).value = "";
+
+
+        if (marker) {
+
+          marker.remove();
+
+          marker = null;
+
+        }
+
+
+        const status =
+          document.getElementById(
+            "locationStatus"
+          );
+
+
+        status.textContent =
+          "📍 No location selected yet. Click the map to select one.";
+
+
+        status.classList.remove(
+          "selected"
+        );
+
+
+      } else {
+
+        msg.textContent =
+          data.message ||
+          "Unable to submit the report.";
+
+        msg.className =
+          "error";
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      msg.textContent =
+        "Unable to connect to the server. Please try again.";
+
+      msg.className =
+        "error";
+
+    } finally {
+
+      submitButton.disabled =
+        false;
+
+
+      submitButton.textContent =
+        "Submit Water Fault Report";
+
+    }
+
+  }
+);
+
+
+// ==================================================
+// LOGOUT
+// ==================================================
+
+document.getElementById(
+  "logoutButton"
+).addEventListener(
+  "click",
+  async function() {
+
+    try {
+
+      await fetch(
+        "/api/auth/logout",
+        {
+          method: "POST",
+
+          headers: {
+            Authorization:
+              "Bearer " + token
+          }
+        }
+      );
+
+    } catch (error) {
+
+      console.log(
+        "Logout request failed."
+      );
+
+    }
+
+
+    localStorage.removeItem(
+      "madiAlertToken"
+    );
+
+
+    localStorage.removeItem(
+      "madiAlertUser"
+    );
+
+
+    window.location.href =
+      "/login.html";
+
+  }
+);
+
+</script>
 
 </body>
+
 </html>
