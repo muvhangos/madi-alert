@@ -1,184 +1,155 @@
-# 💧 Madi Alert
+# Madi Alert 🚰
 
-A simple and professional water fault reporting application that allows users to create an account, securely log in, report water-related faults, select the fault location on a map, and optionally upload a photo.
+## Water Fault Reporting System
 
-Madi Alert was developed as a full-stack web application using **Node.js, Express, JavaScript, HTML, CSS, JWT authentication, and Leaflet maps**.
+Madi Alert is a web-based water fault reporting application designed to help communities report water-related problems quickly and efficiently.
 
----
-
-## 🚀 Live Application
-
-**Madi Alert:**
-Add your current Render URL here.
-
-**GitHub Repository:**
-https://github.com/muvhangos/madi-alert
+Users can create an account, log in securely, report water faults, provide their location and description, upload optional photographs, and receive an AI-assisted assessment of the reported fault.
 
 ---
 
-## 📌 Project Overview
+## 🚀 Features
 
-Madi Alert provides a simple way for users to report water service problems.
+### User Authentication
 
-Users can:
+* User registration
+* Mobile number and password authentication
+* Secure password hashing using `bcryptjs`
+* JWT-based authentication
+* Login and logout
+* Protected reporting functionality
+* User information associated with submitted reports
 
-* Create an account
-* Register using their name and mobile number
-* Create a password
-* Log in using their mobile number and password
-* Report water faults
-* Enter a fault description
-* Select the fault location on an interactive map
-* Upload a photo of the fault
-* Submit the report securely
-* Log out of their account
+### Water Fault Reporting
 
-The application uses JWT authentication to protect user and reporting endpoints.
+Users can report water-related problems including:
 
----
+* Water Leak
+* Burst Pipe
+* No Water
+* Low Water Pressure
+* Broken Meter
+* Other
 
-## ✨ Current Features
+Each report can contain:
 
-### 👤 User Registration
-
-Users can create an account using:
-
-* Full name
-* Mobile number
-* Password
-
-Passwords are securely hashed using **bcryptjs** before being stored.
-
----
-
-### 🔐 Password Authentication
-
-Madi Alert now uses password-based authentication.
-
-The authentication flow is:
-
-```text
-Register
-   ↓
-Create Account
-   ↓
-Login
-   ↓
-Mobile Number + Password
-   ↓
-JWT Authentication
-   ↓
-Madi Alert Reporting Page
-```
-
-The previous SMS/PIN verification system has been removed.
-
-There is currently:
-
-* ❌ No SMS verification
-* ❌ No PIN verification
-* ❌ No verification-code page
-* ❌ No Twilio dependency for authentication
-
----
-
-### 📝 Water Fault Reporting
-
-Authenticated users can report water service problems.
-
-A report can contain:
-
-* Fault/problem type
+* Water problem category
 * Description
-* GPS coordinates
-* Photo
-* Reporting user's account information
-* Date/time information
+* GPS latitude
+* GPS longitude
+* Optional photograph
+* Reporting user's name
+* Reporting user's mobile number
+* Report date and time
+* Report status
+* Priority information
+* AI fault assessment
+
+### 📍 Location Services
+
+The application uses browser geolocation and Leaflet maps to help capture the location of a reported water fault.
+
+Reports can contain:
+
+* Latitude
+* Longitude
+* Map location
+* Interactive map display
+
+### 🤖 AI Fault Assistant
+
+Madi Alert includes an AI Fault Assistant powered by OpenAI.
+
+The assistant can analyse the user's reported problem and provide:
+
+* Fault category
+* Severity
+* Priority
+* Confidence
+* AI summary
+* Recommended action
+
+The AI assessment is advisory and does not replace professional inspection, engineering assessment, or emergency services.
+
+### 📷 Photo Analysis
+
+Users can optionally attach a photograph when reporting a fault.
+
+The image can be analysed by the AI Fault Assistant to provide additional context for the report.
+
+### 🛠️ Admin Dashboard
+
+The administrator dashboard provides an overview of submitted reports.
+
+It includes:
+
+* Total reports
+* High-priority reports
+* Emergency reports
+* No-water reports
+* Report search
+* Status filtering
+* Report details
+* Reporter information
+* Location information
+* Report photographs
+* AI fault assessment
+* AI recommended action
+
+### 📊 Report Management
+
+Reports can be retrieved and updated through the protected API.
+
+Report statuses can be managed by the administrator.
 
 ---
 
-### 🗺️ Interactive Map
-
-Madi Alert uses **Leaflet** to provide an interactive map.
-
-Users can click on the map to identify where the water fault occurred.
-
-The application records:
-
-```text
-Latitude
-Longitude
-```
-
-A location is required before a report can be submitted.
-
----
-
-### 📷 Photo Upload
-
-Users can optionally upload a photo showing the water fault.
-
-The application uses **Multer** to handle uploaded files.
-
----
-
-### 🔒 Protected API
-
-Reporting endpoints require a valid JWT token.
-
-Authenticated requests use:
-
-```text
-Authorization: Bearer <token>
-```
-
-Unauthorized users are redirected to the login page.
-
----
-
-### 🚪 Logout
-
-Users can securely log out of the application.
-
-Logout removes the locally stored authentication information and returns the user to the login page.
-
----
-
-## 🛠️ Technology Stack
+## 🏗️ Technology Stack
 
 ### Frontend
 
 * HTML5
 * CSS3
 * JavaScript
-* Leaflet.js
-* Responsive design
+* Leaflet Maps
+* Browser Geolocation API
 
 ### Backend
 
 * Node.js
 * Express.js
 
-### Authentication
+### Authentication & Security
 
 * JSON Web Tokens (JWT)
 * bcryptjs
+* Environment variables with dotenv
 
 ### File Uploads
 
 * Multer
 
-### Configuration
+### AI
 
-* dotenv
+* OpenAI API
+* GPT-5.6 Luna
 
-### Version Control
+### Data Storage
 
-* Git
-* GitHub
+The current application uses JSON files for lightweight local/runtime data storage:
+
+* `users.json`
+* `reports.json`
+
+Uploaded report photographs are stored in:
+
+* `uploads/`
+
+Runtime/private data files are excluded from Git using `.gitignore`.
 
 ### Deployment
 
+* GitHub
 * Render
 
 ---
@@ -189,120 +160,87 @@ Logout removes the locally stored authentication information and returns the use
 madi-alert/
 │
 ├── public/
+│   ├── admin.html
+│   ├── auth.js
 │   ├── index.html
 │   ├── login.html
 │   ├── register.html
-│   └── auth.js
+│   └── report.html
 │
 ├── uploads/
-│   └── uploaded fault images
 │
 ├── server.js
 ├── package.json
 ├── package-lock.json
-├── .gitignore
 ├── users.json
-└── reports.json
+├── reports.json
+├── .env
+├── .gitignore
+└── README.md
 ```
 
-### Important Files
-
-#### `server.js`
-
-Main Express server containing:
-
-* Authentication routes
-* JWT authentication middleware
-* User registration
-* User login
-* Logout endpoint
-* Fault reporting API
-* File upload handling
-* Admin functionality
-* Health-check endpoint
-
-#### `public/index.html`
-
-Main Madi Alert reporting interface.
-
-It provides:
-
-* User information
-* Fault reporting form
-* Interactive map
-* Photo upload
-* Report submission
-* Logout
-
-#### `public/auth.js`
-
-Handles:
-
-* Registration
-* Login
-* Logout
-* JWT storage
-* User information
-* Authentication messages
-
-#### `public/login.html`
-
-User login page.
-
-#### `public/register.html`
-
-New-user registration page.
+> `users.json`, `reports.json`, `uploads/`, and `.env` contain runtime/private information and should not be committed to GitHub.
 
 ---
 
-## 🔑 Authentication
+## 🔐 Authentication Flow
 
-Madi Alert uses JWT authentication.
-
-After successful login, the server returns a JWT token.
-
-The frontend stores the authentication information locally:
+The application uses a simple password-based authentication system.
 
 ```text
-madiAlertToken
-madiAlertUser
+Register
+   ↓
+Account Created
+   ↓
+Login
+   ↓
+JWT Authentication
+   ↓
+Water Fault Reporting
+   ↓
+AI Fault Assessment
+   ↓
+Submit Report
+   ↓
+Admin Dashboard
 ```
 
-The token is then sent with protected API requests.
-
-Example:
-
-```http
-Authorization: Bearer YOUR_TOKEN
-```
-
-Tokens expire after the configured JWT expiration period.
+SMS/PIN verification is not used in the current version.
 
 ---
 
-## 🌐 API Endpoints
+## 🤖 AI Fault Assessment Flow
 
-### Health Check
-
-```http
-GET /health
+```text
+User enters fault description
+          ↓
+Optional photograph selected
+          ↓
+AI Fault Assistant
+          ↓
+OpenAI API
+          ↓
+Fault assessment
+          ↓
+Category
+Severity
+Priority
+Confidence
+Summary
+Recommended Action
+          ↓
+Assessment attached to report
 ```
 
-Returns the current application status.
-
-Example response:
-
-```json
-{
-  "success": true,
-  "app": "Madi Alert",
-  "status": "Running"
-}
-```
+The AI result is stored together with the report so that administrators can review the assessment later.
 
 ---
 
-### Register
+## 🔌 API Endpoints
+
+### Authentication
+
+#### Register
 
 ```http
 POST /api/auth/register
@@ -310,54 +248,46 @@ POST /api/auth/register
 
 Creates a new user account.
 
-Request:
-
-```json
-{
-  "name": "John Doe",
-  "phoneNumber": "+27123456789",
-  "password": "password123"
-}
-```
-
----
-
-### Login
+#### Login
 
 ```http
 POST /api/auth/login
 ```
 
-Authenticates an existing user.
+Authenticates the user and returns a JWT.
 
-Request:
-
-```json
-{
-  "phoneNumber": "+27123456789",
-  "password": "password123"
-}
-```
-
-Successful authentication returns a JWT token and user information.
-
----
-
-### Logout
+#### Logout
 
 ```http
 POST /api/auth/logout
 ```
 
-Requires authentication.
-
-```http
-Authorization: Bearer YOUR_TOKEN
-```
+Logs the user out on the client side.
 
 ---
 
-### Get Reports
+### AI
+
+#### Analyse Fault
+
+```http
+POST /api/ai/analyze
+```
+
+Requires authentication.
+
+Accepts:
+
+* Fault description
+* Optional photograph
+
+Returns an AI-assisted fault assessment.
+
+---
+
+### Reports
+
+#### Get Reports
 
 ```http
 GET /api/reports
@@ -365,9 +295,9 @@ GET /api/reports
 
 Requires authentication.
 
----
+Returns submitted reports.
 
-### Submit Report
+#### Create Report
 
 ```http
 POST /api/reports
@@ -375,11 +305,9 @@ POST /api/reports
 
 Requires authentication.
 
-The request uses `multipart/form-data` because a photo can be uploaded.
+Creates a new water fault report.
 
----
-
-### Update Report
+#### Update Report
 
 ```http
 PATCH /api/reports/:id
@@ -387,9 +315,21 @@ PATCH /api/reports/:id
 
 Requires authentication.
 
+Updates a report.
+
 ---
 
-## ⚙️ Installation
+### Health Check
+
+```http
+GET /health
+```
+
+Returns the application's health/status response.
+
+---
+
+## ⚙️ Local Installation
 
 ### 1. Clone the repository
 
@@ -409,7 +349,7 @@ cd madi-alert
 npm install
 ```
 
-### 4. Create `.env`
+### 4. Configure environment variables
 
 Create a `.env` file in the project root.
 
@@ -417,33 +357,25 @@ Example:
 
 ```env
 PORT=5000
-JWT_SECRET=your-secure-secret
+
+JWT_SECRET=your-secure-jwt-secret
+
 ADMIN_EMAIL=your-admin-email
-ADMIN_PASSWORD=your-admin-password
+ADMIN_PASSWORD=your-secure-admin-password
+
+OPENAI_API_KEY=your-openai-api-key
+OPENAI_MODEL=gpt-5.6-luna
 ```
 
-**Never commit `.env` to GitHub.**
+Never commit `.env` to GitHub.
 
----
-
-## ▶️ Run Locally
-
-Start the application:
+### 5. Start the application
 
 ```bash
 npm start
 ```
 
-The server should display:
-
-```text
-Madi Alert running on port 5000
-Open http://localhost:5000
-Password authentication enabled.
-SMS/PIN authentication disabled.
-```
-
-Open:
+The application will normally be available at:
 
 ```text
 http://localhost:5000
@@ -453,190 +385,262 @@ http://localhost:5000
 
 ## 🧪 Testing the Application
 
-Test the following flow:
+After starting the server:
 
-### Registration
+### User Registration
 
-1. Open the registration page.
-2. Enter your name.
-3. Enter your mobile number.
-4. Create a password.
-5. Click **Create Account**.
+Open:
+
+```text
+http://localhost:5000/register.html
+```
+
+Create an account using:
+
+* Name
+* Mobile number
+* Password
 
 ### Login
 
-1. Enter your mobile number.
-2. Enter your password.
-3. Click **Login**.
-4. Confirm that the Madi Alert reporting page opens.
-
-### Submit a Fault
-
-1. Select the fault/problem.
-2. Enter a description.
-3. Click the location on the map.
-4. Optionally upload a photo.
-5. Submit the report.
-
-### Logout
-
-Click **Logout**.
-
-The application should return you to the login page.
-
----
-
-## 🔒 Security
-
-The following security measures are currently implemented:
-
-* Password hashing with bcryptjs
-* JWT authentication
-* Protected reporting routes
-* Protected report retrieval
-* Authentication checks on the frontend
-* `.env` excluded from Git
-* User data excluded from Git
-* Report data excluded from Git
-* Backup files excluded from Git
-
-### Important
-
-Do not commit the following files or folders containing private/runtime data:
+Open:
 
 ```text
-.env
-users.json
-reports.json
-uploads/
+http://localhost:5000/login.html
 ```
+
+Log in using the registered mobile number and password.
+
+### Report a Fault
+
+After logging in:
+
+1. Select the water problem.
+2. Enter a description.
+3. Allow location access if required.
+4. Select an optional photograph.
+5. Run the AI Fault Assistant.
+6. Review the AI assessment.
+7. Submit the report.
+
+### Admin Dashboard
+
+Open:
+
+```text
+http://localhost:5000/admin.html
+```
+
+The administrator can review submitted reports and their AI assessments.
 
 ---
 
-## ☁️ Deployment
+## 🌍 Deployment
 
-Madi Alert is deployed using **Render**.
+Madi Alert is designed to run as a Node.js web service.
 
-The application can be connected to the GitHub repository so that pushes to the `main` branch trigger a new deployment.
+The production deployment uses:
 
-### Render Start Command
-
-```bash
-npm start
+```text
+GitHub
+   ↓
+Render
+   ↓
+Node.js / Express
+   ↓
+Madi Alert
 ```
 
-### Build/Install
+The Render service should use the following build/start configuration:
+
+### Build Command
 
 ```bash
 npm install
 ```
 
-Environment variables should be configured directly in Render rather than committing them to GitHub.
+### Start Command
+
+```bash
+npm start
+```
+
+Production environment variables should be configured inside Render rather than committed to GitHub.
 
 ---
 
-## ⚠️ Current Data Storage
+## 🔑 Environment Variables
 
-The current version uses local JSON files for runtime data:
+The application can use the following environment variables:
+
+| Variable         | Purpose                               |
+| ---------------- | ------------------------------------- |
+| `PORT`           | Server port                           |
+| `JWT_SECRET`     | JWT signing secret                    |
+| `ADMIN_EMAIL`    | Administrator login                   |
+| `ADMIN_PASSWORD` | Administrator password                |
+| `OPENAI_API_KEY` | OpenAI API authentication             |
+| `OPENAI_MODEL`   | OpenAI model used by the AI assistant |
+
+### Security
+
+Never publish:
+
+* OpenAI API keys
+* JWT secrets
+* Admin passwords
+* `.env`
+* User data
+* Private runtime files
+
+These should remain outside the Git repository.
+
+---
+
+## 📦 Dependencies
+
+The main backend dependencies include:
 
 ```text
-users.json
-reports.json
+express
+bcryptjs
+jsonwebtoken
+multer
+dotenv
+openai
+nodemailer
 ```
 
-This is suitable for development and demonstration purposes.
+---
 
-For a production application, the next recommended upgrade is a persistent database such as:
+## 🛡️ Security Notes
 
-* MongoDB
-* PostgreSQL
-* MySQL
+Madi Alert uses:
 
-A database would provide reliable persistence for:
+* Password hashing
+* JWT authentication
+* Protected API routes
+* Environment variables for secrets
+* Git exclusion of private runtime files
+* HTML escaping in the admin dashboard
 
-* User accounts
-* Password hashes
-* Water-fault reports
-* Report status
-* Uploaded-file references
-* Administrative records
+For a production-scale application, additional security measures should be considered, including:
 
-This is especially important for deployment environments where local files may not provide permanent storage.
+* Database-backed persistence
+* Role-based authorization
+* Rate limiting
+* Input validation
+* HTTPS enforcement
+* Secure cookie/session strategies
+* Audit logging
+* Cloud/object storage for photographs
 
 ---
 
 ## 🔮 Future Improvements
 
-Possible future features include:
+Potential future enhancements include:
 
-* 🗄️ MongoDB/PostgreSQL database
-* 👨‍💼 Admin dashboard
-* 📊 Report statistics
-* 📍 Fault tracking by geographic area
-* 🔄 Report status updates
-* 📧 Email notifications
-* 📱 WhatsApp notifications
-* 🗺️ Improved map functionality
-* 🔔 User notifications
-* 🖼️ Improved image management
-* ☁️ Cloud image storage
-* 👥 Multiple user roles
-* 🛡️ Enhanced security
-* 📱 Progressive Web App support
-
----
-
-## 🎯 Project Goals
-
-The goal of Madi Alert is to provide a simple digital platform that makes it easier for residents to report water service problems and provide accurate information about the location and condition of the fault.
-
-The project also demonstrates practical full-stack development skills including:
-
-* Frontend development
-* Backend development
-* REST APIs
-* Authentication
-* Password security
-* JWT
-* File uploads
-* Interactive maps
-* Git/GitHub
-* Cloud deployment
+* PostgreSQL or MongoDB database
+* Dedicated administrator roles
+* Email notifications
+* WhatsApp notifications
+* SMS notifications
+* Municipal water utility integration
+* Report assignment
+* Automatic status notifications
+* Advanced analytics
+* Report history
+* User profile management
+* Cloud image storage
+* Mobile application
+* Offline reporting
+* Automatic geographic clustering of incidents
 
 ---
 
-## 👨‍💻 Developer
+## 👨‍💻 Author
 
 **Samuel Muvhango**
 
 Full Stack Developer in training.
 
-### Technologies & Skills
+### GitHub
 
-* HTML
-* CSS
-* JavaScript
-* Python
-* Django
-* Node.js
-* Express
-* React
-* MongoDB
-* Git
-* GitHub
-* REST APIs
-* Cloud deployment
+`https://github.com/muvhangos`
+
+### Madi Alert Repository
+
+`https://github.com/muvhangos/madi-alert`
 
 ---
 
 ## 📄 License
 
-This project is currently intended for educational, portfolio, and demonstration purposes.
+This project is currently intended as an educational and portfolio project.
 
 ---
 
-## ⭐ Madi Alert
+## ⚠️ Disclaimer
 
-**Report it. Locate it. Fix it.**
+Madi Alert is a reporting and information system.
 
-💧 Making water fault reporting simpler through technology.
+AI-generated fault assessments are advisory only. They should not be treated as a substitute for professional inspection, engineering assessment, municipal procedures, or emergency services.
+
+````
+
+### 2. Save it in VS Code
+
+In your project:
+
+```text
+C:\Users\USER\Downloads\madi-alert\madi-alert
+````
+
+Open:
+
+```text
+README.md
+```
+
+Replace its contents with the README above and press **Ctrl + S**.
+
+### 3. Push it to GitHub
+
+In PowerShell:
+
+```powershell
+cd "C:\Users\USER\Downloads\madi-alert\madi-alert"
+```
+
+Then:
+
+```powershell
+git status
+```
+
+You should see `README.md` as modified.
+
+Run:
+
+```powershell
+git add README.md
+git commit -m "Update Madi Alert documentation"
+git push origin main
+```
+
+### 4. Render
+
+Once the push succeeds, your GitHub repository will contain the new README.
+
+If your existing Render service is connected to:
+
+```text
+muvhangos/madi-alert
+```
+
+and automatic deploys are enabled, **Render should detect the push and deploy the current `main` branch automatically**.
+
+I would **not change your Render environment variables or service settings right now**, because your application is already working with the OpenAI integration. The important thing is to keep the API key and other secrets in Render's environment settings, **not in GitHub**.
+
+If you run the four Git commands above and paste the **`git status` / `git push` output here**, I can check that the GitHub update went through before we touch anything else.
