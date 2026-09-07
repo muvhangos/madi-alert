@@ -1,45 +1,843 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
 
->
+<title>Madi Alert - Admin Dashboard</title>
 
-  <title>Madi Alert</title>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f7fb;
+        color: #1f2937;
+    }
+
+    header {
+        background: linear-gradient(135deg, #0066cc, #004080);
+        color: white;
+        padding: 24px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .header-inner {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 30px;
+    }
+
+    header p {
+        margin: 6px 0 0;
+        opacity: 0.9;
+    }
+
+    .logout-btn {
+        border: none;
+        background: white;
+        color: #004080;
+        padding: 10px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .logout-btn:hover {
+        background: #e8f1ff;
+    }
+
+    main {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 20px 40px;
+    }
+
+    .welcome {
+        margin-bottom: 24px;
+    }
+
+    .welcome h2 {
+        margin-bottom: 5px;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 22px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .stat-label {
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 32px;
+        font-weight: bold;
+        margin-top: 8px;
+        color: #005bbb;
+    }
+
+    .toolbar {
+        background: white;
+        padding: 18px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .toolbar select,
+    .toolbar input {
+        padding: 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+        margin-right: 10px;
+    }
+
+    .refresh-btn {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 7px;
+        background: #0066cc;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .refresh-btn:hover {
+        background: #004c99;
+    }
+
+    .reports {
+        display: grid;
+        gap: 20px;
+    }
+
+    .report-card {
+        background: white;
+        border-radius: 14px;
+        padding: 24px;
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .report-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 15px;
+        margin-bottom: 18px;
+    }
+
+    .report-title {
+        margin: 0;
+        font-size: 20px;
+        color: #004080;
+    }
+
+    .report-date {
+        color: #6b7280;
+        font-size: 13px;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 7px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        background: #e5e7eb;
+    }
+
+    .details {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .detail {
+        background: #f8fafc;
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    .detail strong {
+        display: block;
+        font-size: 12px;
+        color: #6b7280;
+        margin-bottom: 5px;
+    }
+
+    .description {
+        margin-bottom: 20px;
+    }
+
+    .description strong {
+        display: block;
+        margin-bottom: 7px;
+    }
+
+    .ai-box {
+        background: #f5f3ff;
+        border: 1px solid #ddd6fe;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .ai-title {
+        color: #5b21b6;
+        font-size: 19px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .ai-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .ai-item {
+        background: white;
+        border-radius: 8px;
+        padding: 12px;
+    }
+
+    .ai-item strong {
+        display: block;
+        font-size: 11px;
+        color: #6b7280;
+        margin-bottom: 5px;
+    }
+
+    .ai-text {
+        background: white;
+        border-radius: 8px;
+        padding: 14px;
+        margin-top: 10px;
+    }
+
+    .ai-text strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #5b21b6;
+    }
+
+    .photo {
+        margin-top: 18px;
+    }
+
+    .photo img {
+        max-width: 300px;
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+    }
+
+    .location-link {
+        display: inline-block;
+        margin-top: 15px;
+        color: #0066cc;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .location-link:hover {
+        text-decoration: underline;
+    }
+
+    .no-reports,
+    .error,
+    .loading {
+        background: white;
+        padding: 30px;
+        text-align: center;
+        border-radius: 12px;
+    }
+
+    .error {
+        color: #b91c1c;
+    }
+
+    @media (max-width: 900px) {
+        .stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .ai-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .header-inner {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .stats,
+        .details,
+        .ai-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .report-header {
+            flex-direction: column;
+        }
+
+        main {
+            padding: 0 12px 30px;
+        }
+    }
+</style>
+
+
 </head>
 
 <body>
 
-  <h1>Madi Alert</h1>
+<header>
+    <div class="header-inner">
+        <div>
+            <h1>💧 Madi Alert</h1>
+            <p>Water Fault Reporting — Administrator Dashboard</p>
+        </div>
 
-  <h2>Water Fault Reporting System</h2>
 
-  <p>
-    Report faulty water infrastructure in your community.
-  </p>
+    <button class="logout-btn" onclick="logout()">
+        Logout
+    </button>
+</div>
 
-  <p>
-    Please login or create an account to continue.
-  </p>
 
-  <br>
+</header>
 
-  <a href="/login.html">
-    <button type="button">Login</button>
-  </a>
+<main>
 
-<br><br>
 
-  <a href="/register.html">
-    <button type="button">Create Account</button>
-  </a>
+<div class="welcome">
+    <h2>Admin Dashboard</h2>
+    <p>Monitor and manage water-fault reports submitted by the community.</p>
+</div>
+
+<section class="stats">
+    <div class="stat-card">
+        <span class="stat-label">Total Reports</span>
+        <span class="stat-number" id="totalReports">0</span>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-label">High Priority</span>
+        <span class="stat-number" id="highPriority">0</span>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-label">Emergency</span>
+        <span class="stat-number" id="emergencyReports">0</span>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-label">No Water Reports</span>
+        <span class="stat-number" id="noWaterReports">0</span>
+    </div>
+</section>
+
+<section class="toolbar">
+
+    <select id="statusFilter">
+        <option value="all">All Statuses</option>
+        <option value="Submitted">Submitted</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved</option>
+    </select>
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search reports..."
+    >
+
+    <button class="refresh-btn" onclick="loadReports()">
+        🔄 Refresh Reports
+    </button>
+
+</section>
+
+<section id="reports" class="reports">
+    <div class="loading">
+        Loading reports...
+    </div>
+</section>
+
+
+</main>
+
+<script>
+
+    let allReports = [];
+
+    function getToken() {
+        return (
+            localStorage.getItem("token") ||
+            localStorage.getItem("madiAlertToken") ||
+            localStorage.getItem("authToken")
+        );
+    }
+
+    function logout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("madiAlertToken");
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("user");
+
+        window.location.href = "/login.html";
+    }
+
+    function escapeHtml(value) {
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function formatDate(value) {
+        if (!value) {
+            return "Date not available";
+        }
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            return escapeHtml(value);
+        }
+
+        return date.toLocaleString();
+    }
+
+    function getStatus(report) {
+        return report.status || "Submitted";
+    }
+
+    function updateStats(reports) {
+
+        document.getElementById("totalReports").textContent =
+            reports.length;
+
+        document.getElementById("highPriority").textContent =
+            reports.filter(function(report) {
+                const priority =
+                    report.aiAnalysis &&
+                    report.aiAnalysis.priority;
+
+                return priority === "High" ||
+                       priority === "Urgent";
+            }).length;
+
+        document.getElementById("emergencyReports").textContent =
+            reports.filter(function(report) {
+                const severity =
+                    report.aiAnalysis &&
+                    report.aiAnalysis.severity;
+
+                return severity === "Emergency";
+            }).length;
+
+        document.getElementById("noWaterReports").textContent =
+            reports.filter(function(report) {
+                const category =
+                    report.aiAnalysis &&
+                    report.aiAnalysis.category;
+
+                return category === "No Water";
+            }).length;
+    }
+
+    function renderReports(reports) {
+
+        const container =
+            document.getElementById("reports");
+
+        if (!reports.length) {
+            container.innerHTML =
+                '<div class="no-reports">No reports found.</div>';
+            return;
+        }
+
+        container.innerHTML =
+            reports.map(function(report) {
+
+                const ai =
+                    report.aiAnalysis || {};
+
+                const status =
+                    getStatus(report);
+
+                const latitude =
+                    report.latitude ??
+                    report.lat;
+
+                const longitude =
+                    report.longitude ??
+                    report.lng;
+
+                let locationHtml = "";
+
+                if (
+                    latitude !== undefined &&
+                    latitude !== null &&
+                    longitude !== undefined &&
+                    longitude !== null
+                ) {
+                    const mapUrl =
+                        "https://www.google.com/maps?q=" +
+                        encodeURIComponent(
+                            latitude + "," + longitude
+                        );
+
+                    locationHtml =
+                        '<a class="location-link" target="_blank" href="' +
+                        mapUrl +
+                        '">📍 View Location on Map</a>';
+                }
+
+                let photoHtml = "";
+
+                if (report.photo) {
+
+                    const photoUrl =
+                        report.photo.startsWith("http")
+                            ? report.photo
+                            : report.photo;
+
+                    photoHtml =
+                        '<div class="photo">' +
+                            '<strong>📷 Report Photo</strong><br><br>' +
+                            '<img src="' +
+                            escapeHtml(photoUrl) +
+                            '" alt="Water fault report photo">' +
+                        '</div>';
+                }
+
+                return `
+                    <article class="report-card">
+
+                        <div class="report-header">
+
+                            <div>
+                                <h3 class="report-title">
+                                    🚰 ${escapeHtml(
+                                        report.problem ||
+                                        report.type ||
+                                        "Water Fault"
+                                    )}
+                                </h3>
+
+                                <div class="report-date">
+                                    ${formatDate(
+                                        report.createdAt ||
+                                        report.date ||
+                                        report.timestamp
+                                    )}
+                                </div>
+                            </div>
+
+                            <span class="status">
+                                ${escapeHtml(status)}
+                            </span>
+
+                        </div>
+
+                        <div class="details">
+
+                            <div class="detail">
+                                <strong>Reporter</strong>
+                                ${escapeHtml(
+                                    report.name ||
+                                    report.customerName ||
+                                    "Unknown"
+                                )}
+                            </div>
+
+                            <div class="detail">
+                                <strong>Phone</strong>
+                                ${escapeHtml(
+                                    report.phoneNumber ||
+                                    report.phone ||
+                                    "Not provided"
+                                )}
+                            </div>
+
+                            <div class="detail">
+                                <strong>Report ID</strong>
+                                ${escapeHtml(
+                                    report.id ||
+                                    "Not available"
+                                )}
+                            </div>
+
+                            <div class="detail">
+                                <strong>Problem</strong>
+                                ${escapeHtml(
+                                    report.problem ||
+                                    report.type ||
+                                    "Not specified"
+                                )}
+                            </div>
+
+                        </div>
+
+                        <div class="description">
+
+                            <strong>Description</strong>
+
+                            <div>
+                                ${escapeHtml(
+                                    report.description ||
+                                    "No description provided."
+                                )}
+                            </div>
+
+                        </div>
+
+                        <div class="ai-box">
+
+                            <div class="ai-title">
+                                🤖 AI Fault Assessment
+                            </div>
+
+                            <div class="ai-grid">
+
+                                <div class="ai-item">
+                                    <strong>Category</strong>
+                                    ${escapeHtml(
+                                        ai.category ||
+                                        "Not available"
+                                    )}
+                                </div>
+
+                                <div class="ai-item">
+                                    <strong>Severity</strong>
+                                    ${escapeHtml(
+                                        ai.severity ||
+                                        "Not available"
+                                    )}
+                                </div>
+
+                                <div class="ai-item">
+                                    <strong>Priority</strong>
+                                    ${escapeHtml(
+                                        ai.priority ||
+                                        "Not available"
+                                    )}
+                                </div>
+
+                                <div class="ai-item">
+                                    <strong>Confidence</strong>
+                                    ${escapeHtml(
+                                        ai.confidence ||
+                                        "Not available"
+                                    )}
+                                </div>
+
+                            </div>
+
+                            <div class="ai-text">
+
+                                <strong>AI Summary</strong>
+
+                                ${
+                                    escapeHtml(
+                                        ai.summary ||
+                                        "No AI summary available."
+                                    )
+                                }
+
+                            </div>
+
+                            <div class="ai-text">
+
+                                <strong>
+                                    Recommended Action
+                                </strong>
+
+                                ${
+                                    escapeHtml(
+                                        ai.recommendedAction ||
+                                        "No recommendation available."
+                                    )
+                                }
+
+                            </div>
+
+                        </div>
+
+                        ${locationHtml}
+
+                        ${photoHtml}
+
+                    </article>
+                `;
+
+            }).join("");
+    }
+
+    function applyFilters() {
+
+        const status =
+            document.getElementById(
+                "statusFilter"
+            ).value;
+
+        const search =
+            document.getElementById(
+                "searchInput"
+            ).value
+            .toLowerCase()
+            .trim();
+
+        const filtered =
+            allReports.filter(function(report) {
+
+                const reportStatus =
+                    getStatus(report);
+
+                if (
+                    status !== "all" &&
+                    reportStatus !== status
+                ) {
+                    return false;
+                }
+
+                if (!search) {
+                    return true;
+                }
+
+                const searchable =
+                    JSON.stringify(report)
+                        .toLowerCase();
+
+                return searchable.includes(search);
+            });
+
+        renderReports(filtered);
+    }
+
+    async function loadReports() {
+
+        const container =
+            document.getElementById("reports");
+
+        container.innerHTML =
+            '<div class="loading">Loading reports...</div>';
+
+        const token = getToken();
+
+        if (!token) {
+            container.innerHTML =
+                '<div class="error">You are not logged in. Please log in as an administrator.</div>';
+
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch("/api/reports", {
+                    method: "GET",
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                });
+
+            const data =
+                await response.json();
+
+            if (response.status === 401) {
+                logout();
+                return;
+            }
+
+            if (!response.ok || !data.success) {
+                throw new Error(
+                    data.message ||
+                    "Unable to load reports."
+                );
+            }
+
+            allReports =
+                Array.isArray(data.reports)
+                    ? data.reports
+                    : [];
+
+            updateStats(allReports);
+            applyFilters();
+
+        } catch (error) {
+
+            console.error(
+                "Load reports error:",
+                error
+            );
+
+            container.innerHTML =
+                '<div class="error">' +
+                'Unable to load reports. ' +
+                escapeHtml(error.message) +
+                '</div>';
+        }
+    }
+
+    document
+        .getElementById("statusFilter")
+        .addEventListener(
+            "change",
+            applyFilters
+        );
+
+    document
+        .getElementById("searchInput")
+        .addEventListener(
+            "input",
+            applyFilters
+        );
+
+    loadReports();
+
+</script>
 
 </body>
-
 </html>

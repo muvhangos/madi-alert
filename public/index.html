@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -17,6 +18,7 @@
   >
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -175,6 +177,7 @@
       justify-content: center;
       font-size: 14px;
       font-weight: bold;
+      flex-shrink: 0;
     }
 
     .section-title h4 {
@@ -216,7 +219,9 @@
       font-family: inherit;
       background: white;
       color: #16323d;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
     }
 
     input:focus,
@@ -224,7 +229,8 @@
     textarea:focus {
       outline: none;
       border-color: #087ea4;
-      box-shadow: 0 0 0 3px rgba(8, 126, 164, 0.1);
+      box-shadow:
+        0 0 0 3px rgba(8, 126, 164, 0.1);
     }
 
     input[readonly] {
@@ -241,6 +247,170 @@
       margin: 7px 0 0;
       color: #7a8d94;
       font-size: 12px;
+    }
+
+    /* =========================
+       AI ASSISTANT
+    ========================= */
+
+    .ai-assistant {
+      margin-top: 22px;
+      padding: 22px;
+      border: 1px solid #b9dce8;
+      border-radius: 14px;
+      background:
+        linear-gradient(
+          135deg,
+          #f2fbfd,
+          #f8fcfd
+        );
+    }
+
+    .ai-assistant-title {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 15px;
+    }
+
+    .ai-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      background: linear-gradient(
+        135deg,
+        #087ea4,
+        #075b78
+      );
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+      flex-shrink: 0;
+      box-shadow:
+        0 5px 12px rgba(8, 126, 164, 0.2);
+    }
+
+    .ai-assistant-title strong {
+      display: block;
+      color: #123f50;
+      font-size: 17px;
+      margin-bottom: 3px;
+    }
+
+    .ai-assistant-title p {
+      margin: 0;
+      color: #6c8189;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .ai-button {
+      width: 100%;
+      padding: 13px 16px;
+      border: none;
+      border-radius: 9px;
+      background: linear-gradient(
+        135deg,
+        #087ea4,
+        #075b78
+      );
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition:
+        transform 0.15s,
+        box-shadow 0.15s,
+        opacity 0.15s;
+    }
+
+    .ai-button:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 5px 15px rgba(8, 126, 164, 0.25);
+    }
+
+    .ai-button:disabled {
+      opacity: 0.65;
+      cursor: wait;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .ai-status {
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: bold;
+      min-height: 18px;
+    }
+
+    .ai-status.success {
+      color: #24733f;
+    }
+
+    .ai-status.error {
+      color: #b33333;
+    }
+
+    .ai-result {
+      margin-top: 15px;
+      padding: 17px;
+      background: white;
+      border: 1px solid #d7e7eb;
+      border-radius: 12px;
+    }
+
+    .ai-result-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .ai-result-grid > div {
+      padding: 11px;
+      background: #f4f9fa;
+      border-radius: 8px;
+    }
+
+    .ai-result-grid span,
+    .ai-result-item span {
+      display: block;
+      font-size: 11px;
+      color: #71848b;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+
+    .ai-result-grid strong {
+      display: block;
+      color: #123f50;
+      font-size: 13px;
+    }
+
+    .ai-result-item {
+      margin-top: 12px;
+    }
+
+    .ai-result-item p {
+      margin: 0;
+      color: #3d5963;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .ai-disclaimer {
+      margin-top: 13px;
+      padding-top: 12px;
+      border-top: 1px solid #e3edef;
+      color: #81939a;
+      font-size: 11px;
+      line-height: 1.5;
     }
 
     /* =========================
@@ -313,19 +483,26 @@
     .submit-button {
       width: 100%;
       padding: 15px;
-      background: linear-gradient(135deg, #087ea4, #075b78);
+      background: linear-gradient(
+        135deg,
+        #087ea4,
+        #075b78
+      );
       color: white;
       border: none;
       border-radius: 10px;
       font-size: 17px;
       font-weight: bold;
       cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
+      transition:
+        transform 0.15s,
+        box-shadow 0.15s;
     }
 
     .submit-button:hover {
       transform: translateY(-1px);
-      box-shadow: 0 5px 15px rgba(8, 126, 164, 0.25);
+      box-shadow:
+        0 5px 15px rgba(8, 126, 164, 0.25);
     }
 
     .submit-button:disabled {
@@ -424,6 +601,14 @@
       #map {
         height: 300px;
       }
+
+      .ai-result-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .ai-assistant {
+        padding: 17px;
+      }
     }
 
   </style>
@@ -443,8 +628,13 @@
       </div>
 
       <div>
+
         <h1>Madi Alert</h1>
-        <p>Water fault reporting service</p>
+
+        <p>
+          Water fault reporting service
+        </p>
+
       </div>
 
     </div>
@@ -495,7 +685,6 @@
     <div class="form-content">
 
       <form id="reportForm">
-
 
         <!-- =========================
              USER INFORMATION
@@ -637,6 +826,96 @@
 
           </div>
 
+
+          <!-- =========================
+               AI FAULT ASSISTANT
+          ========================== -->
+
+          <div class="ai-assistant">
+
+            <div class="ai-assistant-title">
+
+              <div class="ai-icon">
+                🤖
+              </div>
+
+              <div>
+
+                <strong>
+                  AI Fault Assistant
+                </strong>
+
+                <p>
+                  Get an AI-assisted assessment of the water fault.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <button
+              type="button"
+              id="aiAnalyzeButton"
+              class="ai-button"
+            >
+              🤖 Analyze Fault with AI
+            </button>
+
+
+            <div
+              id="aiStatus"
+              class="ai-status"
+            ></div>
+
+
+            <div
+              id="aiResult"
+              class="ai-result"
+              hidden
+            ></div>
+
+
+            <!-- AI information submitted with report -->
+
+            <input
+              type="hidden"
+              id="aiCategory"
+              name="aiCategory"
+            >
+
+            <input
+              type="hidden"
+              id="aiSeverity"
+              name="aiSeverity"
+            >
+
+            <input
+              type="hidden"
+              id="aiPriority"
+              name="aiPriority"
+            >
+
+            <input
+              type="hidden"
+              id="aiSummary"
+              name="aiSummary"
+            >
+
+            <input
+              type="hidden"
+              id="aiRecommendation"
+              name="aiRecommendation"
+            >
+
+            <input
+              type="hidden"
+              id="aiConfidence"
+              name="aiConfidence"
+            >
+
+          </div>
+
         </div>
 
 
@@ -752,7 +1031,6 @@
 
         </div>
 
-
       </form>
 
     </div>
@@ -765,7 +1043,9 @@
 <footer>
 
   Madi Alert &copy; 2026
+
   <br>
+
   Helping communities report water service problems.
 
 </footer>
@@ -776,13 +1056,14 @@
 
 <script>
 
-// ==================================================
-// AUTHENTICATION
-// ==================================================
+/* ==================================================
+   AUTHENTICATION
+================================================== */
 
 const token =
-  localStorage.getItem("madiAlertToken");
-
+  localStorage.getItem(
+    "madiAlertToken"
+  );
 
 if (!token) {
 
@@ -792,13 +1073,14 @@ if (!token) {
 }
 
 
-// ==================================================
-// LOAD USER
-// ==================================================
+/* ==================================================
+   LOAD USER
+================================================== */
 
 const userData =
-  localStorage.getItem("madiAlertUser");
-
+  localStorage.getItem(
+    "madiAlertUser"
+  );
 
 if (userData) {
 
@@ -807,17 +1089,21 @@ if (userData) {
     const user =
       JSON.parse(userData);
 
-
-    document.getElementById("name").value =
+    document.getElementById(
+      "name"
+    ).value =
       user.name || "";
 
-
-    document.getElementById("phone").value =
+    document.getElementById(
+      "phone"
+    ).value =
       user.phoneNumber || "";
 
-
-    document.getElementById("welcome").textContent =
-      "Welcome, " + (user.name || "User");
+    document.getElementById(
+      "welcome"
+    ).textContent =
+      "Welcome, " +
+      (user.name || "User");
 
   } catch (error) {
 
@@ -831,9 +1117,9 @@ if (userData) {
 }
 
 
-// ==================================================
-// MAP
-// ==================================================
+/* ==================================================
+   MAP
+================================================== */
 
 const map =
   L.map("map").setView(
@@ -854,29 +1140,27 @@ L.tileLayer(
 let marker = null;
 
 
-// ==================================================
-// MAP CLICK
-// ==================================================
+/* ==================================================
+   MAP CLICK
+================================================== */
 
 map.on(
   "click",
   function(event) {
 
     if (marker) {
-
       marker.remove();
-
     }
 
 
     marker =
-      L.marker(event.latlng)
-        .addTo(map);
+      L.marker(
+        event.latlng
+      ).addTo(map);
 
 
     const latitude =
       event.latlng.lat;
-
 
     const longitude =
       event.latlng.lng;
@@ -915,9 +1199,433 @@ map.on(
 );
 
 
-// ==================================================
-// REPORT SUBMISSION
-// ==================================================
+/* ==================================================
+   AI FAULT ASSISTANT
+================================================== */
+
+const aiAnalyzeButton =
+  document.getElementById(
+    "aiAnalyzeButton"
+  );
+
+const aiStatus =
+  document.getElementById(
+    "aiStatus"
+  );
+
+const aiResult =
+  document.getElementById(
+    "aiResult"
+  );
+
+const problemField =
+  document.getElementById(
+    "problem"
+  );
+
+const descriptionField =
+  document.getElementById(
+    "description"
+  );
+
+const photoField =
+  document.getElementById(
+    "photo"
+  );
+
+
+function escapeHtml(value) {
+
+  return String(
+    value || ""
+  )
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+function showAiStatus(
+  message,
+  type = ""
+) {
+
+  aiStatus.textContent =
+    message;
+
+  aiStatus.className =
+    "ai-status" +
+    (
+      type
+        ? " " + type
+        : ""
+    );
+
+}
+
+
+function displayAiResult(
+  analysis
+) {
+
+  aiResult.innerHTML = `
+
+    <div class="ai-result-grid">
+
+      <div>
+        <span>Category</span>
+        <strong>
+          ${escapeHtml(
+            analysis.category
+          )}
+        </strong>
+      </div>
+
+      <div>
+        <span>Severity</span>
+        <strong>
+          ${escapeHtml(
+            analysis.severity
+          )}
+        </strong>
+      </div>
+
+      <div>
+        <span>Priority</span>
+        <strong>
+          ${escapeHtml(
+            analysis.priority
+          )}
+        </strong>
+      </div>
+
+      <div>
+        <span>Confidence</span>
+        <strong>
+          ${escapeHtml(
+            analysis.confidence
+          )}
+        </strong>
+      </div>
+
+    </div>
+
+
+    <div class="ai-result-item">
+
+      <span>
+        AI Summary
+      </span>
+
+      <p>
+        ${escapeHtml(
+          analysis.summary
+        )}
+      </p>
+
+    </div>
+
+
+    <div class="ai-result-item">
+
+      <span>
+        Recommended Action
+      </span>
+
+      <p>
+        ${escapeHtml(
+          analysis.recommendedAction
+        )}
+      </p>
+
+    </div>
+
+
+    <div class="ai-disclaimer">
+
+      AI analysis is advisory only.
+      It does not replace professional
+      inspection or engineering assessment.
+
+    </div>
+
+  `;
+
+  aiResult.hidden =
+    false;
+
+}
+
+
+/* ==================================================
+   ANALYZE FAULT
+================================================== */
+
+aiAnalyzeButton.addEventListener(
+  "click",
+  async function() {
+
+    const currentToken =
+      localStorage.getItem(
+        "madiAlertToken"
+      );
+
+
+    if (!currentToken) {
+
+      window.location.href =
+        "/login.html";
+
+      return;
+
+    }
+
+
+    const problem =
+      problemField.value.trim();
+
+    const description =
+      descriptionField.value.trim();
+
+    const photo =
+      photoField.files[0];
+
+
+    if (!problem) {
+
+      showAiStatus(
+        "Please select the type of water problem first.",
+        "error"
+      );
+
+      problemField.focus();
+
+      return;
+
+    }
+
+
+    if (!description) {
+
+      showAiStatus(
+        "Please describe the water fault first.",
+        "error"
+      );
+
+      descriptionField.focus();
+
+      return;
+
+    }
+
+
+    const formData =
+      new FormData();
+
+    formData.append(
+      "problem",
+      problem
+    );
+
+    formData.append(
+      "description",
+      description
+    );
+
+
+    if (photo) {
+
+      formData.append(
+        "photo",
+        photo
+      );
+
+    }
+
+
+    aiAnalyzeButton.disabled =
+      true;
+
+    aiAnalyzeButton.textContent =
+      "🤖 AI is analyzing...";
+
+
+    showAiStatus(
+      photo
+        ? "Analyzing the fault description and photo..."
+        : "Analyzing the fault description..."
+    );
+
+
+    aiResult.hidden =
+      true;
+
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/ai/analyze",
+          {
+            method: "POST",
+
+            headers: {
+              Authorization:
+                "Bearer " +
+                currentToken
+            },
+
+            body: formData
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (
+        response.status === 401
+      ) {
+
+        localStorage.removeItem(
+          "madiAlertToken"
+        );
+
+        localStorage.removeItem(
+          "madiAlertUser"
+        );
+
+        window.location.href =
+          "/login.html";
+
+        return;
+
+      }
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.message ||
+          "AI analysis failed."
+        );
+
+      }
+
+
+      if (
+        !data.analysis
+      ) {
+
+        throw new Error(
+          "The AI did not return an analysis."
+        );
+
+      }
+
+
+      displayAiResult(
+        data.analysis
+      );
+
+
+      /* ----------------------------------
+         Store AI information in hidden
+         form fields so it is submitted
+         with the report.
+      ---------------------------------- */
+
+      document.getElementById(
+        "aiCategory"
+      ).value =
+        data.analysis.category || "";
+
+
+      document.getElementById(
+        "aiSeverity"
+      ).value =
+        data.analysis.severity || "";
+
+
+      document.getElementById(
+        "aiPriority"
+      ).value =
+        data.analysis.priority || "";
+
+
+      document.getElementById(
+        "aiSummary"
+      ).value =
+        data.analysis.summary || "";
+
+
+      document.getElementById(
+        "aiRecommendation"
+      ).value =
+        data.analysis.recommendedAction || "";
+
+
+      document.getElementById(
+        "aiConfidence"
+      ).value =
+        data.analysis.confidence || "";
+
+
+      showAiStatus(
+        "✓ AI analysis completed successfully.",
+        "success"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "AI analysis error:",
+        error
+      );
+
+
+      showAiStatus(
+        error.message ||
+        "Unable to complete AI analysis.",
+        "error"
+      );
+
+    } finally {
+
+      aiAnalyzeButton.disabled =
+        false;
+
+      aiAnalyzeButton.textContent =
+        "🤖 Analyze Fault with AI";
+
+    }
+
+  }
+);
+
+
+/* ==================================================
+   REPORT SUBMISSION
+================================================== */
 
 document.getElementById(
   "reportForm"
@@ -929,7 +1637,9 @@ document.getElementById(
 
 
     const msg =
-      document.getElementById("msg");
+      document.getElementById(
+        "msg"
+      );
 
 
     const submitButton =
@@ -950,15 +1660,21 @@ document.getElementById(
       ).value;
 
 
-    msg.textContent = "";
-    msg.className = "";
+    msg.textContent =
+      "";
+
+    msg.className =
+      "";
 
 
-    // ----------------------------------------------
-    // Require map location
-    // ----------------------------------------------
+    /* ----------------------------------
+       Require map location
+    ---------------------------------- */
 
-    if (!latitude || !longitude) {
+    if (
+      !latitude ||
+      !longitude
+    ) {
 
       msg.textContent =
         "Please select the fault location on the map.";
@@ -966,12 +1682,14 @@ document.getElementById(
       msg.className =
         "error";
 
+
       document.getElementById(
         "locationStatus"
       ).scrollIntoView({
         behavior: "smooth",
         block: "center"
       });
+
 
       return;
 
@@ -1000,7 +1718,8 @@ document.getElementById(
 
             headers: {
               Authorization:
-                "Bearer " + token
+                "Bearer " +
+                token
             },
 
             body: formData
@@ -1012,11 +1731,13 @@ document.getElementById(
         await response.json();
 
 
-      // --------------------------------------------
-      // Authentication expired
-      // --------------------------------------------
+      /* ----------------------------------
+         Authentication expired
+      ---------------------------------- */
 
-      if (response.status === 401) {
+      if (
+        response.status === 401
+      ) {
 
         localStorage.removeItem(
           "madiAlertToken"
@@ -1034,9 +1755,9 @@ document.getElementById(
       }
 
 
-      // --------------------------------------------
-      // Success
-      // --------------------------------------------
+      /* ----------------------------------
+         Success
+      ---------------------------------- */
 
       if (response.ok) {
 
@@ -1050,13 +1771,16 @@ document.getElementById(
         this.reset();
 
 
-        // Restore logged-in user's details
+        /* Restore logged-in user's details */
+
         if (userData) {
 
           try {
 
             const user =
-              JSON.parse(userData);
+              JSON.parse(
+                userData
+              );
 
 
             document.getElementById(
@@ -1072,28 +1796,35 @@ document.getElementById(
 
           } catch (error) {
 
-            console.error(error);
+            console.error(
+              error
+            );
 
           }
 
         }
 
 
+        /* Clear location */
+
         document.getElementById(
           "latitude"
-        ).value = "";
+        ).value =
+          "";
 
 
         document.getElementById(
           "longitude"
-        ).value = "";
+        ).value =
+          "";
 
 
         if (marker) {
 
           marker.remove();
 
-          marker = null;
+          marker =
+            null;
 
         }
 
@@ -1113,6 +1844,22 @@ document.getElementById(
         );
 
 
+        /* Clear AI results */
+
+        aiResult.innerHTML =
+          "";
+
+        aiResult.hidden =
+          true;
+
+
+        aiStatus.textContent =
+          "";
+
+        aiStatus.className =
+          "ai-status";
+
+
       } else {
 
         msg.textContent =
@@ -1126,7 +1873,9 @@ document.getElementById(
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        error
+      );
 
 
       msg.textContent =
@@ -1150,9 +1899,9 @@ document.getElementById(
 );
 
 
-// ==================================================
-// LOGOUT
-// ==================================================
+/* ==================================================
+   LOGOUT
+================================================== */
 
 document.getElementById(
   "logoutButton"
@@ -1169,7 +1918,8 @@ document.getElementById(
 
           headers: {
             Authorization:
-              "Bearer " + token
+              "Bearer " +
+              token
           }
         }
       );
